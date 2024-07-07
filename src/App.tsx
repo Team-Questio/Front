@@ -1,7 +1,5 @@
-import React from 'react';
 import HomePage from './components/HomePage';
 import PortfolioUploadPageText from './components/PortfolioUploadPage';
-import PortfolioUploadPagePDF from './components/PortfolioUploadPagePDF';
 import QuestionListPage from './components/QuestionListPage';
 import { BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom';
 const App = () => {

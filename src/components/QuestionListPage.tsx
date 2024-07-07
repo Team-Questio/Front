@@ -5,20 +5,10 @@ import { CSSTransition } from "react-transition-group";
 
 const QuestionListPage: React.FC = () => {
   const [selectedQuestionIndex, setSelectedQuestionIndex] = React.useState(-1);
-  const [portfolio, setPortfolio] = useState<string>(
+  const [portfolio] = useState<string>(
     "저는 1녀1남의 막내로 태어나 화목한 가정에서..."
   );
-  const [answers, setAnswers] = useState<{ [key: number]: string }>({});
   const [darkMode, setDarkMode] = useState(false);
-
-  const handleAnswerChange =
-    (questionId: number) =>
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setAnswers({
-        ...answers,
-        [questionId]: event.target.value,
-      });
-    };
 
   const questions = [
     "당신은 막내로서 어떤 역할을 주로 수행했나요",
