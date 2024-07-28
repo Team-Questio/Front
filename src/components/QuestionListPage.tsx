@@ -37,7 +37,13 @@ const QuestionListPage: React.FC = () => {
         <p className="title">예상 면접 질문</p>
         <div className="question-list">
           {questions.map((question, index) => (
-            <div key={index} className="question-box">
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              key={index}
+              className="question-box"
+            >
               <div
                 className="question"
                 onClick={(e) => {
