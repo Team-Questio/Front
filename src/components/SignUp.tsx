@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Header from "./Header";
 
+import { useNavigate } from "react-router-dom";
+
 import "../styles/style.css";
 
 interface InputFieldProps {
@@ -32,9 +34,10 @@ const SignUpBox: React.FC = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const navigate = useNavigate();
+
   const handleSignUp = () => {
-    // 회원가입 로직
-    console.log("회원가입 시도:", name, email, password, confirmPassword);
+    navigate("/login");
   };
 
   return (
