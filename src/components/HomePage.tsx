@@ -11,6 +11,7 @@ const App: React.FC = () => {
 
   const handleButtonClick = () => {
     navigate("/login");
+    console.log("hi");
   };
 
   const toggleDarkMode = () => {
