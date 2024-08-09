@@ -48,12 +48,13 @@ const QuestionListPage: React.FC = () => {
                 className="question"
                 onClick={(e) => {
                   e.stopPropagation();
-
-                  if (selectedQuestionIndex === index) {
-                    setSelectedQuestionIndex(-1);
-                  } else {
-                    setSelectedQuestionIndex(index);
-                  }
+                  
+                  /* 클릭 시 답변란 열리는 로직 */  
+                  // if (selectedQuestionIndex === index) {
+                  //   setSelectedQuestionIndex(-1);
+                  // } else {
+                  //   setSelectedQuestionIndex(index);
+                  // }
                 }}
               >
                 <div className="question-content">
