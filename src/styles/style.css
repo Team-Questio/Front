@@ -263,3 +263,9 @@ label input[type="checkbox"] {
 .button-container {
   width: 30%;
 }
+
+.kakao-logo {
+  margin-top: 20px;
+  width: 45px;
+  height: 45px;
+}
