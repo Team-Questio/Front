@@ -275,3 +275,15 @@ label input[type="checkbox"] {
 .button-container {
   width: 30%;
 }
+
+.signup-link,
+.forgot-password-link {
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.signup-link:hover,
+.forgot-password-link:hover {
+  text-decoration: underline; /* 호버 시 밑줄 표시 */
+}
