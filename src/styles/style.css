@@ -1,3 +1,12 @@
+* {
+  user-select: none; /* 텍스트 선택 금지 */
+  -webkit-user-drag: none; /* 드래그 금지 (WebKit 기반 브라우저) */
+}
+
+img {
+  pointer-events: none;
+}
+
 html,
 body {
   height: 100%;
@@ -166,6 +175,15 @@ body {
   justify-content: center; /* 가운데 정렬 */
 }
 
+
+
+.question-content {
+  display: flex;
+  justify-content: space-between; /* 요소들을 space-between으로 배치 */
+  align-items: center;
+}
+
+
 .question-index {
   margin: 0 10px;
 }
@@ -185,9 +203,12 @@ input[type="text"] {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
-  border: none;
-  border-radius: 5px;
+  border: 0.5px solid #ffffff;
+  border-radius: 10px;
   box-sizing: border-box;
+  background-color: #374151;
+  font-size: 15px;
+  color: white;
 }
 
 input[type="checkbox"] {
@@ -264,6 +285,17 @@ label input[type="checkbox"] {
   width: 30%;
 }
 
+.signup-link,
+.forgot-password-link {
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.signup-link:hover,
+.forgot-password-link:hover {
+  text-decoration: underline; /* 호버 시 밑줄 표시 */
+}
 .kakao-logo {
   margin-top: 20px;
   width: 45px;
