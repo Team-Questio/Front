@@ -31,7 +31,7 @@ const QuestionListPage: React.FC = () => {
 
   const toggleFeedBack = (index: number, position: string) => {
     if (position === "up") {
-      if (feedback[index] == 1) {
+      if (feedback[index] === 1) {
         const newFeedback = [...feedback];
         newFeedback[index] = 0;
         setFeedback(newFeedback);
@@ -41,7 +41,7 @@ const QuestionListPage: React.FC = () => {
         setFeedback(newFeedback);
       }
     } else {
-      if (feedback[index] == -1) {
+      if (feedback[index] === -1) {
         const newFeedback = [...feedback];
         newFeedback[index] = 0;
         setFeedback(newFeedback);
