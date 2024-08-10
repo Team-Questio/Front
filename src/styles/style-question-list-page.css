@@ -116,7 +116,7 @@ body {
 .question {
   padding: 20px 10px;
   cursor: pointer;
-  background-color: #2b3644;
+  background-color: hsl(214, 23%, 22%);
   width: 100%;
 }
 
@@ -124,7 +124,12 @@ body {
   display: flex;
   align-items: center;
   cursor: pointer;
-  width: 100%;
+  width: 95%;
+}
+
+.question-feedback-box {
+  display: flex;
+  gap: 10px;
 }
 
 .question-index {

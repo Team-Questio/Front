@@ -3,12 +3,20 @@ import Header from "./Header";
 import "../styles/style-question-list-page.css";
 import { CSSTransition } from "react-transition-group";
 
+import {
+  FaRegThumbsDown,
+  FaRegThumbsUp,
+  FaThumbsDown,
+  FaThumbsUp,
+} from "react-icons/fa";
+
 const QuestionListPage: React.FC = () => {
   const [selectedQuestionIndex, setSelectedQuestionIndex] = React.useState(-1);
   const [portfolio] = useState<string>(
     "저는 1녀1남의 막내로 태어나 화목한 가정에서..."
   );
   const [darkMode, setDarkMode] = useState(false);
+  const [feedback, setFeedback] = useState([1, 0, -1, 1]);
 
   const questions = [
     "당신은 막내로서 어떤 역할을 주로 수행했나요",
@@ -19,6 +27,30 @@ const QuestionListPage: React.FC = () => {
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
+  };
+
+  const toggleFeedBack = (index: number, position: string) => {
+    if (position === "up") {
+      if (feedback[index] == 1) {
+        const newFeedback = [...feedback];
+        newFeedback[index] = 0;
+        setFeedback(newFeedback);
+      } else {
+        const newFeedback = [...feedback];
+        newFeedback[index] = 1;
+        setFeedback(newFeedback);
+      }
+    } else {
+      if (feedback[index] == -1) {
+        const newFeedback = [...feedback];
+        newFeedback[index] = 0;
+        setFeedback(newFeedback);
+      } else {
+        const newFeedback = [...feedback];
+        newFeedback[index] = -1;
+        setFeedback(newFeedback);
+      }
+    }
   };
 
   return (
@@ -58,7 +90,37 @@ const QuestionListPage: React.FC = () => {
                 }}
               >
                 <div className="question-content">
-                  <div className="question-index">{index + 1}.</div> {question}
+                  <div className="question-index">
+                    {index + 1}. {question}{" "}
+                  </div>
+                  <div className="question-feedback-box">
+                    {feedback[index] !== 1 ? (
+                      <FaRegThumbsUp
+                        onClick={() => {
+                          toggleFeedBack(index, "up");
+                        }}
+                      />
+                    ) : (
+                      <FaThumbsUp
+                        onClick={() => {
+                          toggleFeedBack(index, "up");
+                        }}
+                      />
+                    )}
+                    {feedback[index] !== -1 ? (
+                      <FaRegThumbsDown
+                        onClick={() => {
+                          toggleFeedBack(index, "down");
+                        }}
+                      />
+                    ) : (
+                      <FaThumbsDown
+                        onClick={() => {
+                          toggleFeedBack(index, "down");
+                        }}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
               <CSSTransition
