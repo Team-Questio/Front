@@ -31,6 +31,7 @@ const InputField: React.FC<InputFieldProps> = ({
 const SignUpBox: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [authCode, setAuthCode] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -38,6 +39,16 @@ const SignUpBox: React.FC = () => {
 
   const handleSignUp = () => {
     navigate("/login");
+  };
+
+  const sendAuthEmail = () => {
+    /* 인증 이메일 보내기 */
+    alert("이메일로 인증 메일 발송하였습니다.");
+  };
+
+  const checkAuthCode = () => {
+    /* 인증 번호 확인 */
+    alert("확인되었습니다.");
   };
 
   return (
@@ -49,12 +60,32 @@ const SignUpBox: React.FC = () => {
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <InputField
-        type="email"
-        placeholder="이메일을 입력해주세요"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+      <div className="flex-form">
+        <InputField
+          type="text"
+          placeholder="이메일을 입력해주세요"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <div className="button-container">
+          <button className="form-button" onClick={sendAuthEmail}>
+            인증하기
+          </button>
+        </div>
+      </div>
+      <div className="flex-form">
+        <InputField
+          type="text"
+          placeholder="인증번호를 입력해주세요"
+          value={authCode}
+          onChange={(e) => setAuthCode(e.target.value)}
+        />
+        <div className="button-container">
+          <button className="form-button" onClick={checkAuthCode}>
+            확인하기
+          </button>
+        </div>
+      </div>
       <InputField
         type="password"
         placeholder="비밀번호를 입력해주세요"
