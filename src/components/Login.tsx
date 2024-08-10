@@ -4,6 +4,7 @@ import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 
 import "../styles/style.css";
+import KaKaoLogin from "./KaKaoLogin";
 
 interface InputFieldProps {
   type: string;
@@ -74,6 +75,9 @@ const LoginBox: React.FC = () => {
       <button className="form-button" onClick={handleLogin}>
         로그인
       </button>
+      <div>
+        <KaKaoLogin />
+      </div>
     </div>
   );
 };

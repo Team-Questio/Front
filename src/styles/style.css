@@ -296,3 +296,8 @@ label input[type="checkbox"] {
 .forgot-password-link:hover {
   text-decoration: underline; /* 호버 시 밑줄 표시 */
 }
+.kakao-logo {
+  margin-top: 20px;
+  width: 45px;
+  height: 45px;
+}
