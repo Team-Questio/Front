@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import Header from "./Header";
-
 import { useNavigate } from "react-router-dom";
-
 import axios from "axios";
-
 import "../styles/style.css";
 
 interface InputFieldProps {
@@ -12,6 +9,7 @@ interface InputFieldProps {
   placeholder: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  errorMessage?: string;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -19,6 +17,7 @@ const InputField: React.FC<InputFieldProps> = ({
   placeholder,
   value,
   onChange,
+  errorMessage,
 }) => (
   <div className="input-container">
     <input
@@ -26,7 +25,9 @@ const InputField: React.FC<InputFieldProps> = ({
       placeholder={placeholder}
       value={value}
       onChange={onChange}
+      className={errorMessage ? "input-error" : ""}
     />
+    {errorMessage && <div className="error-message">{errorMessage}</div>}
   </div>
 );
 
@@ -39,6 +40,14 @@ const SignUpBox: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isChecked, setIsChecked] = useState(false);
 
+  const [emailError, setEmailError] = useState<string | undefined>(undefined);
+  const [passwordError, setPasswordError] = useState<string | undefined>(
+    undefined
+  );
+  const [confirmPasswordError, setConfirmPasswordError] = useState<
+    string | undefined
+  >(undefined);
+
   const navigate = useNavigate();
 
   const isValidEmail = (email: string) => {
@@ -46,15 +55,45 @@ const SignUpBox: React.FC = () => {
     return emailPattern.test(email);
   };
 
+  const isValidPassword = (password: string) => {
+    const passwordPattern = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{8,20}$/;
+    return passwordPattern.test(password);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    setEmailError(
+      isValidEmail(e.target.value) ? undefined : "유효한 이메일을 입력해주세요."
+    );
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    setPasswordError(
+      isValidPassword(e.target.value)
+        ? undefined
+        : "비밀번호는 8~20자, 영어와 숫자로 구성되어야 합니다."
+    );
+  };
+
+  const handleConfirmPasswordChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setConfirmPassword(e.target.value);
+    setConfirmPasswordError(
+      e.target.value === password ? undefined : "비밀번호가 일치하지 않습니다."
+    );
+  };
+
   const sendAuthEmail = async () => {
-    if (!isValidEmail(email)) {
-      alert("유효한 이메일을 입력해주세요");
+    if (emailError) {
+      alert("이메일을 확인해주세요.");
       return;
     }
 
     try {
       const response = await axios.post(
-        "https://api.questio.co.kr/api/v1/auth/email-auth",
+        "http://api.questio.co.kr/api/v1/auth/email-auth",
         { email }
       );
       console.log("Response:", response.data);
@@ -69,7 +108,7 @@ const SignUpBox: React.FC = () => {
   const checkAuthCode = async () => {
     try {
       const response = await axios.post(
-        "https://api.questio.co.kr/api/v1/auth/email-auth/verify",
+        "http://api.questio.co.kr/api/v1/auth/email-auth/verify",
         { email },
         {
           params: { code: authCode },
@@ -93,8 +132,8 @@ const SignUpBox: React.FC = () => {
       alert("이메일 인증이 필요합니다.");
       return;
     }
-    if (password !== confirmPassword) {
-      alert("비밀번호가 다릅니다.");
+    if (passwordError || confirmPasswordError) {
+      alert("비밀번호를 확인해주세요.");
       return;
     }
     if (!isChecked) {
@@ -104,7 +143,7 @@ const SignUpBox: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "https://api.questio.co.kr/api/v1/users",
+        "http://api.questio.co.kr/api/v1/users",
         { username: email, password }
       );
       console.log("Response:", response.data);
@@ -123,7 +162,8 @@ const SignUpBox: React.FC = () => {
           type="text"
           placeholder="이메일을 입력해주세요"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={handleEmailChange}
+          errorMessage={emailError}
         />
         <div className="button-container">
           <button className="form-button" onClick={sendAuthEmail}>
@@ -151,13 +191,15 @@ const SignUpBox: React.FC = () => {
         type="password"
         placeholder="비밀번호를 입력해주세요"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={handlePasswordChange}
+        errorMessage={passwordError}
       />
       <InputField
         type="password"
         placeholder="비밀번호를 재입력해주세요"
         value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
+        onChange={handleConfirmPasswordChange}
+        errorMessage={confirmPasswordError}
       />
       <div className="checkbox-container">
         <label>
