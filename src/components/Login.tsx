@@ -4,6 +4,7 @@ import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 
 import "../styles/style.css";
+import KaKaoLogin from "./KaKaoLogin";
 
 interface InputFieldProps {
   type: string;
@@ -66,14 +67,17 @@ const LoginBox: React.FC = () => {
           로그인 유지
         </label>
         <div className="login-sub-item-sub">
-          <div onClick={handleSignUpButtonClick}>회원가입</div>
+          <div onClick={handleSignUpButtonClick} className="signup-link">회원가입</div>
           <div className="bin-divide" />
-          <div onClick={handleFindPWButtonClick}>비밀번호 찾기</div>
+          <div onClick={handleFindPWButtonClick} className="forgot-password-link">비밀번호 찾기</div>
         </div>
       </div>
       <button className="form-button" onClick={handleLogin}>
         로그인
       </button>
+      <div>
+        <KaKaoLogin />
+      </div>
     </div>
   );
 };
