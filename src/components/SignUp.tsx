@@ -90,7 +90,7 @@ const SignUpBox: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://api.questio.co.kr/api/v1/auth/email-auth",
+        "https://api.questio.co.kr/api/v1/auth/email-auth",
         { email }
       );
       console.log("Response:", response.data);
@@ -105,7 +105,7 @@ const SignUpBox: React.FC = () => {
   const checkAuthCode = async () => {
     try {
       const response = await axios.post(
-        "http://api.questio.co.kr/api/v1/auth/email-auth/verify",
+        "https://api.questio.co.kr/api/v1/auth/email-auth/verify",
         { email },
         {
           params: { code: authCode },
@@ -140,7 +140,7 @@ const SignUpBox: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://api.questio.co.kr/api/v1/users",
+        "https://api.questio.co.kr/api/v1/users",
         { username: email, password }
       );
       console.log("Response:", response.data);
