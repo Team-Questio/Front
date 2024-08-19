@@ -3,6 +3,8 @@ import Header from "./Header";
 
 import { useNavigate } from "react-router-dom";
 
+import axios from "axios";
+
 import "../styles/style.css";
 
 interface InputFieldProps {
@@ -29,37 +31,93 @@ const InputField: React.FC<InputFieldProps> = ({
 );
 
 const SignUpBox: React.FC = () => {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [isEmailSend, setIsEmailSend] = useState(false);
   const [authCode, setAuthCode] = useState("");
+  const [isAuthCheck, setIsAuthCheck] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleSignUp = () => {
-    navigate("/login");
+  const isValidEmail = (email: string) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
   };
 
-  const sendAuthEmail = () => {
-    /* 인증 이메일 보내기 */
-    alert("이메일로 인증 메일 발송하였습니다.");
+  const sendAuthEmail = async () => {
+    if (!isValidEmail(email)) {
+      alert("유효한 이메일을 입력해주세요");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "https://api.questio.co.kr/api/v1/auth/email-auth",
+        { email }
+      );
+      console.log("Response:", response.data);
+      alert("이메일로 인증 메일을 발송하였습니다.");
+      setIsEmailSend(true);
+    } catch (error) {
+      console.error(error);
+      alert("이메일 발송에 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
-  const checkAuthCode = () => {
-    /* 인증 번호 확인 */
-    alert("확인되었습니다.");
+  const checkAuthCode = async () => {
+    try {
+      const response = await axios.post(
+        "https://api.questio.co.kr/api/v1/auth/email-auth/verify",
+        { email },
+        {
+          params: { code: authCode },
+        }
+      );
+      console.log("Response:", response.data);
+      alert("인증되었습니다.");
+      setIsAuthCheck(true);
+    } catch (error) {
+      console.error(error);
+      alert("인증번호를 다시 확인해주세요.");
+    }
+  };
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChecked(e.target.checked);
+  };
+
+  const handleSignUp = async () => {
+    if (!isEmailSend || !isAuthCheck) {
+      alert("이메일 인증이 필요합니다.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      alert("비밀번호가 다릅니다.");
+      return;
+    }
+    if (!isChecked) {
+      alert("개인정보처리방침 확인이 필요합니다.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "https://api.questio.co.kr/api/v1/users",
+        { username: email, password }
+      );
+      console.log("Response:", response.data);
+      alert("회원가입이 완료되었습니다.");
+    } catch (error) {
+      console.error(error);
+      alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
   return (
     <div className="form-container">
       <h2>회원가입</h2>
-      <InputField
-        type="text"
-        placeholder="이름을 입력해주세요"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
       <div className="flex-form">
         <InputField
           type="text"
@@ -73,19 +131,22 @@ const SignUpBox: React.FC = () => {
           </button>
         </div>
       </div>
-      <div className="flex-form">
-        <InputField
-          type="text"
-          placeholder="인증번호를 입력해주세요"
-          value={authCode}
-          onChange={(e) => setAuthCode(e.target.value)}
-        />
-        <div className="button-container">
-          <button className="form-button" onClick={checkAuthCode}>
-            확인하기
-          </button>
+      {isEmailSend && (
+        <div className="flex-form">
+          <InputField
+            type="text"
+            placeholder="인증번호를 입력해주세요"
+            value={authCode}
+            onChange={(e) => setAuthCode(e.target.value)}
+          />
+          <div className="button-container">
+            <button className="form-button" onClick={checkAuthCode}>
+              확인하기
+            </button>
+          </div>
         </div>
-      </div>
+      )}
+
       <InputField
         type="password"
         placeholder="비밀번호를 입력해주세요"
@@ -100,7 +161,11 @@ const SignUpBox: React.FC = () => {
       />
       <div className="checkbox-container">
         <label>
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            checked={isChecked}
+            onChange={handleCheckboxChange}
+          />
           개인정보처리방침 동의
         </label>
       </div>
