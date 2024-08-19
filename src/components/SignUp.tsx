@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Header from "./Header";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/style.css";
 
@@ -47,8 +46,6 @@ const SignUpBox: React.FC = () => {
   const [confirmPasswordError, setConfirmPasswordError] = useState<
     string | undefined
   >(undefined);
-
-  const navigate = useNavigate();
 
   const isValidEmail = (email: string) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
