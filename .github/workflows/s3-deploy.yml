@@ -28,4 +28,12 @@ jobs:
          aws-region: ap-northeast-2
 
      - name: Deploy static site to S3 bucket
-       run: aws s3 sync ./build s3://questio-front
+       run: |
+         aws s3 sync ./build s3://questio-front \
+           --cache-control "max-age=31536000, immutable" \
+           --exclude "index.html" \
+           --delete
+         
+         # Set specific cache-control for index.html to avoid caching it too long
+         aws s3 cp ./build/index.html s3://questio-front/index.html \
+           --cache-control "no-cache, no-store, must-revalidate"
