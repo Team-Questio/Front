@@ -165,7 +165,11 @@ const SignUpBox: React.FC = () => {
       try {
         const response = await axios.post(
           "https://api.questio.co.kr/api/v1/users",
-          JSON.stringify({ username: email, password })
+          JSON.stringify({ username: email, password }), {
+            headers: {
+              "Content-Type": "application/json", // Content-Type을 JSON으로 설정
+            },
+          }
         );
         console.log("Response:", response.data);
         toast.success("회원가입이 완료되었습니다.");
