@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../shared/Header";
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../styles/style.css";
 
@@ -244,7 +244,6 @@ const SignUp: React.FC = () => {
       <div className="wrapper">
         <SignUpBox />
       </div>
-      <ToastContainer />
     </div>
   );
 };

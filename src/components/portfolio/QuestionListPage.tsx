@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Header from "../shared/Header";
 import "../../styles/style-question-list-page.css";
 import { CSSTransition } from "react-transition-group";
-import { ToastContainer } from "react-toastify";
 
 import {
   FaRegThumbsDown,
@@ -137,7 +136,6 @@ const QuestionListPage: React.FC = () => {
           ))}
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

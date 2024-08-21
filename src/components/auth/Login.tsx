@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../../styles/style.css";
 import KakaoLogin from "../shared/KakaoLogin";
 import api from "../../utils/api";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface InputFieldProps {
@@ -38,11 +38,11 @@ const LoginBox: React.FC = () => {
 
   const handleLogin = async () => {
     setLoading(true);
+    const formData = new FormData();
+    formData.append("username", email);
+    formData.append("password", password);
     try {
-      const response = await api.post("/auth/login", {
-        username: email,
-        password,
-      });
+      const response = await api.post("/auth/login", formData);
 
       if (response.status === 200) {
         const token = response.data.token;
@@ -124,7 +124,6 @@ const Login: React.FC = () => {
       <div className="wrapper">
         <LoginBox />
       </div>
-      <ToastContainer />
     </div>
   );
 };
