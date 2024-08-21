@@ -20,7 +20,13 @@ const PortfolioUploadPageText: React.FC = () => {
     setLoading(true);
 
     try {
-      await api.post("/portfolio", JSON.stringify({ content }));
+      const response = await api.post(
+        "/portfolio",
+        JSON.stringify({ content })
+      );
+
+      console.log("Response:", response.data);
+
       toast.success("포트폴리오가 성공적으로 업로드되었습니다!");
       setLoading(false);
       setTimeout(() => {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../shared/Header";
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api";
-import {  toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../styles/style.css";
 
@@ -102,7 +102,6 @@ const SignUpBox: React.FC = () => {
           "/auth/email-auth",
           JSON.stringify({ email })
         );
-        console.log("Response:", response.data);
         toast.success("이메일로 인증 메일을 발송하였습니다.");
         setIsEmailSend(true);
       } catch (error) {
@@ -131,7 +130,6 @@ const SignUpBox: React.FC = () => {
             params: params,
           }
         );
-        console.log("Response:", response.data);
         toast.success("인증되었습니다.");
         setIsAuthCheck(true);
       } catch (error) {
@@ -159,7 +157,6 @@ const SignUpBox: React.FC = () => {
           "/users",
           JSON.stringify({ username: email, password })
         );
-        console.log("Response:", response.data);
         toast.success("회원가입이 완료되었습니다.");
         navigate("/portfolio-upload-text");
       } catch (error) {
