@@ -14,7 +14,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: "14" # Node.js 버전을 명시하는 것이 좋습니다.
+          node-version: "20" # Node.js 버전을 명시하는 것이 좋습니다.
 
       - name: Install dependencies
         run: yarn install
