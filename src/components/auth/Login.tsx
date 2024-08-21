@@ -54,8 +54,11 @@ const LoginBox: React.FC = () => {
         console.log("로그인 성공, 받은 토큰:", token);
         localStorage.setItem("token", token); // 토큰을 localStorage에 저장
         localStorage.setItem("refreshToken", refreshToken); // 토큰을 localStorage에 저장
-        toast.success("로그인 성공!");
-        navigate("/portfolio-upload-text");
+        // toast 메시지와 navigate 호출을 조금 지연시켜 useAuth가 상태를 업데이트할 시간을 줍니다.
+        setTimeout(() => {
+          toast.success("로그인 성공!");
+          navigate("/portfolio-upload-text");
+        }, 100); // 100ms 지연 후 리디렉션
       } else {
         toast.error("로그인 실패. 다시 시도하세요.");
         console.log("로그인 실패:", response);
@@ -63,7 +66,7 @@ const LoginBox: React.FC = () => {
     } catch (error: any) {
       console.error("로그인 중 오류가 발생했습니다:", error);
       if (error.response && error.response.status === 404) {
-        toast.error("로그인 실패: 사용자 정보를 찾을 수 없습니다.");
+        toast.error("사용자 정보를 찾을 수 없습니다.");
       } else {
         toast.error("로그인 중 오류가 발생했습니다.");
       }

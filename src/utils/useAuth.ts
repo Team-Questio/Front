@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "./api"; // axios 인스턴스
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode"; // jwt-decode 임포트
 
 const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +25,7 @@ const useAuth = () => {
         localStorage.removeItem("token"); // 오류 발생 시 토큰 제거
       }
     }
+    setIsLoading(false); // 로딩 완료
   }, []);
 
   const logout = () => {
@@ -33,7 +35,7 @@ const useAuth = () => {
     navigate("/login");
   };
 
-  return { isAuthenticated, logout };
+  return { isAuthenticated, isLoading, logout };
 };
 
 export default useAuth;

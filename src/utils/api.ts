@@ -53,8 +53,7 @@ api.interceptors.response.use(
         console.error("토큰 갱신 중 오류 발생:", refreshError);
         localStorage.removeItem("token");
         localStorage.removeItem("refreshToken");
-        // 필요에 따라 로그인 페이지로 리다이렉트할 수 있습니다.
-        // window.location.href = "/login";
+        window.location.href = "/login";
       }
     }
 
