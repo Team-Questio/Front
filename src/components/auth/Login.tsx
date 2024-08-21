@@ -42,7 +42,11 @@ const LoginBox: React.FC = () => {
     formData.append("username", email);
     formData.append("password", password);
     try {
-      const response = await api.post("/auth/login", formData);
+      const response = await api.post("/auth/login", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
 
       if (response.status === 200) {
         const token = response.data.token;
