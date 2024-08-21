@@ -98,16 +98,16 @@ const SignUpBox: React.FC = () => {
       setLoading(true);
 
       try {
-        // const response = await axios.post(
-        //   "https://questio.co.kr//api/v1/auth/email-auth",
-        //   JSON.stringify({ email }),
-        //   {
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //     },
-        //   }
-        // );
-        // console.log("Response:", response.data);
+        const response = await axios.post(
+          "https://questio.co.kr//api/v1/auth/email-auth",
+          JSON.stringify({ email }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log("Response:", response.data);
         toast.success("이메일로 인증 메일을 발송하였습니다.");
         setIsEmailSend(true);
       } catch (error) {
@@ -126,14 +126,14 @@ const SignUpBox: React.FC = () => {
       setLoading(true);
 
       try {
-        // const response = await axios.post(
-        //   "https://api.questio.co.kr/api/v1/auth/email-auth/verify",
-        //   JSON.stringify({ email }),
-        //   {
-        //     params: { code: authCode },
-        //   }
-        // );
-        // console.log("Response:", response.data);
+        const response = await axios.post(
+          "https://api.questio.co.kr/api/v1/auth/email-auth/verify",
+          JSON.stringify({ email }),
+          {
+            params: { code: authCode },
+          }
+        );
+        console.log("Response:", response.data);
         toast.success("인증되었습니다.");
         setIsAuthCheck(true);
       } catch (error) {
@@ -157,11 +157,11 @@ const SignUpBox: React.FC = () => {
       setLoading(true);
 
       try {
-        // const response = await axios.post(
-        //   "https://api.questio.co.kr/api/v1/users",
-        //   JSON.stringify({ username: email, password })
-        // );
-        // console.log("Response:", response.data);
+        const response = await axios.post(
+          "https://api.questio.co.kr/api/v1/users",
+          JSON.stringify({ username: email, password })
+        );
+        console.log("Response:", response.data);
         toast.success("회원가입이 완료되었습니다.");
         navigate("/portfolio-upload-text");
       } catch (error) {
