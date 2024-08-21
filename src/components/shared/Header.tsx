@@ -4,33 +4,6 @@ import styled from "styled-components";
 import { FaUserCircle } from "react-icons/fa"; // 사용자 이모티콘
 import useAuth from "../../utils/useAuth"; // 로그인 상태 확인을 위한 커스텀 훅
 
-const HeaderContainer = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  color: white;
-`;
-
-const Logo = styled.div`
-  font-size: 24px;
-  font-weight: bold;
-  cursor: pointer;
-`;
-
-const Button = styled.button`
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
-
 const UserIcon = styled.div`
   position: relative;
   cursor: pointer;
@@ -82,8 +55,8 @@ const Header: React.FC = () => {
   };
 
   return (
-    <HeaderContainer>
-      <Logo onClick={handleLogoClick}>Questio</Logo>
+    <div>
+      <div onClick={handleLogoClick}>Questio</div>
 
       {isAuthenticated ? (
         <UserIcon onClick={toggleDropdown}>
@@ -96,9 +69,9 @@ const Header: React.FC = () => {
           </DropdownMenu>
         </UserIcon>
       ) : (
-        <Button onClick={handleButtonClick}>시작하기</Button>
+        <button onClick={handleButtonClick}>시작하기</button>
       )}
-    </HeaderContainer>
+    </div>
   );
 };
 
