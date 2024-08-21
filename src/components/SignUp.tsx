@@ -125,12 +125,15 @@ const SignUpBox: React.FC = () => {
 
       setLoading(true);
 
+      const params = new URLSearchParams();
+      params.append("code", authCode);
+
       try {
         const response = await axios.post(
           "https://api.questio.co.kr/api/v1/auth/email-auth/verify",
           JSON.stringify({ email }),
           {
-            params: { code: authCode },
+            params: params,
           }
         );
         console.log("Response:", response.data);
