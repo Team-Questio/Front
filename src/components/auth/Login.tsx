@@ -38,11 +38,11 @@ const LoginBox: React.FC = () => {
 
   const handleLogin = async () => {
     setLoading(true);
+    const formData = new FormData();
+    formData.append("username", email);
+    formData.append("password", password);
     try {
-      const response = await api.post("/auth/login", {
-        username: email,
-        password,
-      });
+      const response = await api.post("/auth/login", formData);
 
       if (response.status === 200) {
         const token = response.data.token;
