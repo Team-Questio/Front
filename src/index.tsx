@@ -4,7 +4,10 @@ import App from "./App";
 
 const container = document.getElementById("root");
 
-const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+if (!container) {
+  throw new Error("Root container missing in index.html");
+}
+const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <App />

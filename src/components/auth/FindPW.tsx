@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Header from "./Header";
+import Header from "../shared/Header";
+import "../../styles/style.css";
 
-import "../styles/style.css";
 import { useNavigate } from "react-router-dom";
 
 interface InputFieldProps {
@@ -96,15 +96,9 @@ const FindPassword: React.FC = () => {
 };
 
 const FindPW: React.FC = () => {
-  const [darkMode, setDarkMode] = useState(false);
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
-
   return (
-    <div className={darkMode ? "dark" : "light"}>
-      <Header toggleDarkMode={toggleDarkMode} />
+    <div className={"light"}>
+      <Header />
       <div className="wrapper">
         <FindPassword />
       </div>

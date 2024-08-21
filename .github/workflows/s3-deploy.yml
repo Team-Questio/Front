@@ -1,39 +1,41 @@
 name: build and deploy
 on:
- push:
-   branches:
-     - main
+  push:
+    branches:
+      - main
 
 jobs:
- Deploy:
-   runs-on: ubuntu-latest
-   steps:
-     - name: Checkout
-       uses: actions/checkout@v2
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-     - name: Setup node
-       uses: actions/setup-node@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14" # Node.js 버전을 명시하는 것이 좋습니다.
 
-     - name: Install dependencies
-       run: npm install
+      - name: Install dependencies
+        run: yarn install
 
-     - name: Build static file
-       run: npm run build
+      - name: Build static file
+        run: yarn build
 
-     - name: Configure AWS Credentials
-       uses: aws-actions/configure-aws-credentials@v1
-       with:
-         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-         aws-region: ap-northeast-2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
 
-     - name: Deploy static site to S3 bucket
-       run: |
-         aws s3 sync ./build s3://questio-front \
-           --cache-control "max-age=31536000, immutable" \
-           --exclude "index.html" \
-           --delete
-         
-         # Set specific cache-control for index.html to avoid caching it too long
-         aws s3 cp ./build/index.html s3://questio-front/index.html \
-           --cache-control "no-cache, no-store, must-revalidate"
+      - name: Deploy static site to S3 bucket
+        run: |
+          aws s3 sync ./build s3://questio-front \
+            --cache-control "max-age=31536000, immutable" \
+            --exclude "index.html" \
+            --delete
+
+          # Set specific cache-control for index.html to avoid caching it too long
+          aws s3 cp ./build/index.html s3://questio-front/index.html \
+            --cache-control "no-cache, no-store, must-revalidate"
