@@ -99,7 +99,7 @@ const SignUpBox: React.FC = () => {
 
       try {
         const response = await axios.post(
-          "https://questio.co.kr//api/v1/auth/email-auth",
+          "https://questio.co.kr/api/v1/auth/email-auth",
           JSON.stringify({ email }),
           {
             headers: {
