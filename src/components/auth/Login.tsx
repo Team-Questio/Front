@@ -40,7 +40,7 @@ const LoginBox: React.FC = () => {
     setLoading(true);
     try {
       const response = await api.post("/auth/login", {
-        email,
+        username: email,
         password,
       });
 
