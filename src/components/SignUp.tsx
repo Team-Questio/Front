@@ -134,6 +134,9 @@ const SignUpBox: React.FC = () => {
           JSON.stringify({ email }),
           {
             params: params,
+            headers: {
+              "Content-Type": "application/json", // Content-Type을 JSON으로 설정
+            },
           }
         );
         console.log("Response:", response.data);
