@@ -61,6 +61,22 @@ body {
   font-size: 24px;
 }
 
+.header .start-button {
+  padding: 10pt 20pt;
+  font-size: 18px;
+  background-color: #1f2937;
+  border-color: #2d3748;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.header .start-button:hover {
+  background-color: #2d3748;
+}
+
 .content {
   display: flex;
   flex: 1;
@@ -97,7 +113,7 @@ body {
   box-sizing: border-box;
 }
 
-.start-button {
+.content .start-button {
   margin: 30pt 0;
   padding: 10pt 20pt;
   font-size: 18px;
@@ -109,7 +125,7 @@ body {
   transition: background-color 0.3s;
 }
 
-.start-button:hover {
+.content .start-button:hover {
   background-color: #2d3748;
 }
 
