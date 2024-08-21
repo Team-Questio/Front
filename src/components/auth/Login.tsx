@@ -51,7 +51,6 @@ const LoginBox: React.FC = () => {
       if (response.status === 200) {
         const token = response.data.accessToken;
         const refreshToken = response.data.refreshToken;
-        console.log("로그인 성공, 받은 토큰:", token);
         localStorage.setItem("token", token); // 토큰을 localStorage에 저장
         localStorage.setItem("refreshToken", refreshToken); // 토큰을 localStorage에 저장
         // toast 메시지와 navigate 호출을 조금 지연시켜 useAuth가 상태를 업데이트할 시간을 줍니다.
