@@ -44,8 +44,6 @@ const LoginBox: React.FC = () => {
         password,
       });
 
-      console.log("요청 결과:", response); // 토큰을 콘솔에 출력
-
       if (response.status === 200) {
         const token = response.data.token;
         console.log("로그인 성공, 받은 토큰:", token);
@@ -54,9 +52,15 @@ const LoginBox: React.FC = () => {
         navigate("/portfolio-upload-text");
       } else {
         toast.error("로그인 실패. 다시 시도하세요.");
+        console.log("로그인 실패:", response);
       }
-    } catch (error) {
-      toast.error("로그인 중 오류가 발생했습니다.");
+    } catch (error: any) {
+      console.error("로그인 중 오류가 발생했습니다:", error);
+      if (error.response && error.response.status === 404) {
+        toast.error("로그인 실패: 사용자 정보를 찾을 수 없습니다.");
+      } else {
+        toast.error("로그인 중 오류가 발생했습니다.");
+      }
     } finally {
       setLoading(false);
     }

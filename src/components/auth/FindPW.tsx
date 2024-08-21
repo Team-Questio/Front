@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Header from "../shared/Header";
 import "../../styles/style.css";
 
+import { ToastContainer } from "react-toastify";
+
 import { useNavigate } from "react-router-dom";
 
 interface InputFieldProps {
@@ -102,6 +104,7 @@ const FindPW: React.FC = () => {
       <div className="wrapper">
         <FindPassword />
       </div>
+      <ToastContainer />
     </div>
   );
 };
