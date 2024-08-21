@@ -1,12 +1,122 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import Header from "../shared/Header";
 import { useNavigate } from "react-router-dom";
-import "../../styles/style.css";
 import KakaoLogin from "../shared/KakaoLogin";
 import api from "../../utils/api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { jwtDecode } from "jwt-decode"; // JWT 디코딩을 위해 추가
+import { jwtDecode } from "jwt-decode";
+
+// Styled Components
+const Container = styled.div`
+  background-color: #101827;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+`;
+
+const FormContainer = styled.div`
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 500px;
+  background-color: #1f2937;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+`;
+
+const InputContainer = styled.div`
+  width: 100%;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #374151;
+  border-radius: 10px;
+  background-color: #2d3748;
+  font-size: 16px;
+  color: white;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: #3c4960;
+    background-color: #374151;
+  }
+`;
+
+const Button = styled.button`
+  width: 100%;
+  padding: 12px;
+  background-color: #374151;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #2d3748;
+  }
+
+  &:disabled {
+    background-color: #2d3748;
+    cursor: not-allowed;
+  }
+`;
+
+const SubItemContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const SubItem = styled.div`
+  display: flex;
+`;
+
+const Link = styled.div`
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 0.7;
+  color: #ffffff;
+
+  &:hover {
+    text-decoration: underline;
+    opacity: 1;
+  }
+`;
+
+const Spinner = styled.div`
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #ffffff;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
 
 interface InputFieldProps {
   type: string;
@@ -21,14 +131,14 @@ const InputField: React.FC<InputFieldProps> = ({
   value,
   onChange,
 }) => (
-  <div className="input-container">
-    <input
+  <InputContainer>
+    <Input
       type={type}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
     />
-  </div>
+  </InputContainer>
 );
 
 const LoginBox: React.FC = () => {
@@ -104,8 +214,8 @@ const LoginBox: React.FC = () => {
   };
 
   return (
-    <div className="form-container">
-      <h2>로그인</h2>
+    <FormContainer>
+      <h2 style={{ color: "#ffffff", marginBottom: "40px" }}>로그인</h2>
       <InputField
         type="email"
         placeholder="이메일을 입력하세요"
@@ -118,38 +228,29 @@ const LoginBox: React.FC = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <div className="login-sub-item">
-        <div className="login-sub-item-sub">
-          <div onClick={handleSignUpButtonClick} className="signup-link">
-            회원가입
-          </div>
-          <div className="bin-divide" />
-          <div
-            onClick={handleFindPWButtonClick}
-            className="forgot-password-link"
-          >
-            비밀번호 찾기
-          </div>
-        </div>
-      </div>
-      <button className="form-button" onClick={handleLogin} disabled={loading}>
-        {loading ? "로딩 중..." : "로그인"}
-      </button>
-      <div>
-        <KakaoLogin />
-      </div>
-    </div>
+      <div style={{ height: "20px" }} />
+      <SubItemContainer>
+        <SubItem>
+          <Link onClick={handleSignUpButtonClick}>회원가입</Link>
+          <div style={{ width: "10px" }} />
+          <Link onClick={handleFindPWButtonClick}>비밀번호 찾기</Link>
+        </SubItem>
+      </SubItemContainer>
+      <Button onClick={handleLogin} disabled={loading}>
+        {loading ? <Spinner /> : "로그인"}
+      </Button>
+
+      <KakaoLogin />
+    </FormContainer>
   );
 };
 
 const Login: React.FC = () => {
   return (
-    <div className={"light"}>
+    <Container>
       <Header />
-      <div className="wrapper">
-        <LoginBox />
-      </div>
-    </div>
+      <LoginBox />
+    </Container>
   );
 };
 

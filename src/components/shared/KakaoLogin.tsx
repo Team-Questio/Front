@@ -1,5 +1,12 @@
 import React from "react";
-import "../../styles/style.css";
+import styled from "styled-components";
+
+const KakaoLogo = styled.img`
+  margin-top: 20px;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+`;
 
 const KakaoLogin: React.FC = () => {
   const restApiKey: string | undefined = process.env.REACT_APP_REST_API_KEY;
@@ -13,14 +20,7 @@ const KakaoLogin: React.FC = () => {
   };
 
   return (
-    <>
-      <img
-        src="/img/kakaoLogo.png"
-        alt="kakao"
-        className="kakao-logo"
-        onClick={loginHandler}
-      />
-    </>
+    <KakaoLogo src="/img/kakaoLogo.png" alt="kakao" onClick={loginHandler} />
   );
 };
 
