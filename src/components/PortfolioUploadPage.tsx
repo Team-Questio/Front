@@ -21,7 +21,15 @@ const PortfolioUploadPageText: React.FC = () => {
     setLoading(true);
 
     try {
-      // await axios.post("/api/v1/portfolio", { content });
+      await axios.post(
+        "/api/v1/portfolio",
+        { content },
+        {
+          headers: {
+            "Content-Type": "application/json", // Content-Type을 JSON으로 설정
+          },
+        }
+      );
       toast.success("포트폴리오가 성공적으로 업로드되었습니다!");
       setLoading(false);
       setTimeout(() => {
