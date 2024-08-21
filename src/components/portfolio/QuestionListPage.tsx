@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Header from "../shared/Header";
 import { CSSTransition } from "react-transition-group";
-
 import {
   FaRegThumbsDown,
   FaRegThumbsUp,
@@ -12,11 +11,12 @@ import {
 
 // Styled Components
 const Container = styled.div`
+  background-color: #101827;
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
-  background-color: #1f2937;
+  align-items: center;
 `;
 
 const Content = styled.div`
@@ -25,7 +25,6 @@ const Content = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-sizing: border-box;
   width: 100%;
 `;
 
@@ -34,15 +33,15 @@ const Title = styled.p`
   font-size: 23px;
   text-align: left;
   width: 50%;
+  color: #ffffff;
 `;
 
 const PortfolioBackBox = styled.div`
   background-color: #1f2937;
-  border: none;
-  border-radius: 12px;
-  padding: 10pt;
-  margin-bottom: 20pt;
+  border-radius: 10px;
+  padding: 20px;
   width: 50%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 `;
 
 const PortfolioTextArea = styled.div`
@@ -51,8 +50,7 @@ const PortfolioTextArea = styled.div`
   background-color: #2d3748;
   color: #ffffff;
   border: 1px solid #ffffff;
-  border-radius: 12px;
-  width: 100%;
+  border-radius: 10px;
   height: 200px;
   box-sizing: border-box;
 `;
@@ -62,11 +60,11 @@ const QuestionList = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 50%;
+  margin-top: 20px;
 `;
 
 const QuestionBox = styled.div`
   border-radius: 10px;
-  border: none;
   margin-bottom: 10px;
   overflow: hidden;
   width: 100%;
@@ -75,26 +73,27 @@ const QuestionBox = styled.div`
 `;
 
 const Question = styled.div`
-  padding: 20px 10px;
+  padding: 15px 20px;
   cursor: pointer;
-  background-color: hsl(214, 23%, 22%);
-  width: 100%;
+  background-color: #1f2937;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  width: 95%;
+  overflow: clip;
 `;
 
 const QuestionContent = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   cursor: pointer;
-  width: 95%;
+  width: 100%;
+  overflow: clip;
 `;
 
 const QuestionFeedbackBox = styled.div`
   display: flex;
   gap: 10px;
-`;
-
-const QuestionIndex = styled.div`
-  margin-right: 10px;
 `;
 
 const Answer = styled.div`
@@ -104,6 +103,8 @@ const Answer = styled.div`
   overflow: hidden;
   opacity: 0;
   width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
 
   &.answer-enter {
     max-height: 0;
@@ -134,23 +135,28 @@ const Answer = styled.div`
 `;
 
 const AnswerTextArea = styled.textarea`
-  width: 95%;
+  width: 100%;
   background-color: #404957;
   flex: 1;
   margin-top: 5px;
+  padding: 10px;
+  border-radius: 10px;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  resize: none;
 `;
 
 const AnswerButton = styled.button`
-  margin: 10px;
-  width: fit-content;
-  padding: 10pt 15pt;
-  font-size: 14px;
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
   background-color: #374151;
   color: #ffffff;
   border: none;
-  border-radius: 12px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.3s;
 
   &:hover {
     background-color: #2d3748;
@@ -190,11 +196,7 @@ const QuestionListPage: React.FC = () => {
   };
 
   return (
-    <Container
-      onClick={() => {
-        setSelectedQuestionIndex(null);
-      }}
-    >
+    <Container onClick={() => setSelectedQuestionIndex(null)}>
       <Header />
       <Content>
         <Title>나의 포트폴리오</Title>
@@ -204,49 +206,34 @@ const QuestionListPage: React.FC = () => {
         <Title>예상 면접 질문</Title>
         <QuestionList>
           {questions.map((question, index) => (
-            <QuestionBox
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-              key={index}
-            >
+            <QuestionBox onClick={(e) => e.stopPropagation()} key={index}>
               <Question
                 onClick={(e) => {
                   e.stopPropagation();
-                  setSelectedQuestionIndex(
-                    selectedQuestionIndex === index ? null : index
-                  );
+                  // setSelectedQuestionIndex(
+                  //   selectedQuestionIndex === index ? null : index
+                  // );
                 }}
               >
                 <QuestionContent>
-                  <QuestionIndex>
+                  <div>
                     {index + 1}. {question}
-                  </QuestionIndex>
+                  </div>
                   <QuestionFeedbackBox>
                     {feedback[index] !== 1 ? (
                       <FaRegThumbsUp
-                        onClick={() => {
-                          toggleFeedBack(index, "up");
-                        }}
+                        onClick={() => toggleFeedBack(index, "up")}
                       />
                     ) : (
-                      <FaThumbsUp
-                        onClick={() => {
-                          toggleFeedBack(index, "up");
-                        }}
-                      />
+                      <FaThumbsUp onClick={() => toggleFeedBack(index, "up")} />
                     )}
                     {feedback[index] !== -1 ? (
                       <FaRegThumbsDown
-                        onClick={() => {
-                          toggleFeedBack(index, "down");
-                        }}
+                        onClick={() => toggleFeedBack(index, "down")}
                       />
                     ) : (
                       <FaThumbsDown
-                        onClick={() => {
-                          toggleFeedBack(index, "down");
-                        }}
+                        onClick={() => toggleFeedBack(index, "down")}
                       />
                     )}
                   </QuestionFeedbackBox>
@@ -260,7 +247,7 @@ const QuestionListPage: React.FC = () => {
               >
                 <Answer>
                   <AnswerTextArea placeholder="여기에 질문에 답을 적어주세요..." />
-                  <AnswerButton>Button</AnswerButton>
+                  <AnswerButton>저장</AnswerButton>
                 </Answer>
               </CSSTransition>
             </QuestionBox>

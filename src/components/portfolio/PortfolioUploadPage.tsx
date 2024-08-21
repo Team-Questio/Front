@@ -8,69 +8,65 @@ import "react-toastify/dist/ReactToastify.css";
 
 // Styled Components
 const Container = styled.div`
-  background-color: #1f2937;
+  background-color: #101827;
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
-`;
-
-const Content = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  background-color: #101827;
-  box-sizing: border-box;
-  text-align: center;
-  width: 100%;
 `;
 
-const Title = styled.h1`
-  margin: 10pt 0;
-  font-size: 36px;
-  color: #ffffff;
-`;
-
-const Description = styled.p`
-  margin: 10pt 0 40pt 0;
-  font-size: 18px;
-  line-height: 1.5;
-  color: #ffffff;
-`;
-
-const InputBackBox = styled.div`
+const FormContainer = styled.div`
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 500px;
   background-color: #1f2937;
-  border: none;
-  border-radius: 12px;
-  width: 50%;
-  padding: 10pt;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+`;
+
+const Title = styled.h2`
+  color: #ffffff;
+  margin-bottom: 20px;
 `;
 
 const TextArea = styled.textarea`
-  padding: 10pt;
-  font-size: 16px;
-  background-color: #2d3748;
-  color: #ffffff;
-  border: 1px dashed #ffffff;
-  border-radius: 12px;
   width: 100%;
-  height: 200px;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #374151;
+  border-radius: 10px;
+  background-color: #2d3748;
+  font-size: 16px;
+  color: white;
   box-sizing: border-box;
+  height: 200px;
   resize: none;
+
+  &:focus {
+    outline: none;
+    border-color: #3c4960;
+    background-color: #374151;
+  }
 `;
 
-const SubmitButton = styled.button`
-  padding: 10pt;
-  font-size: 18px;
-  background-color: #374151;
-  color: #ffffff;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  margin-top: 10pt;
+const Button = styled.button`
   width: 100%;
+  padding: 12px;
+  background-color: #374151;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
   transition: background-color 0.3s;
 
   &:hover {
@@ -78,7 +74,7 @@ const SubmitButton = styled.button`
   }
 
   &:disabled {
-    background-color: #6b7280;
+    background-color: #2d3748;
     cursor: not-allowed;
   }
 `;
@@ -87,8 +83,8 @@ const Spinner = styled.div`
   border: 4px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   border-top: 4px solid #ffffff;
-  width: 40px;
-  height: 40px;
+  width: 24px;
+  height: 24px;
   animation: spin 1s linear infinite;
 
   @keyframes spin {
@@ -136,21 +132,18 @@ const PortfolioUploadPageText: React.FC = () => {
   return (
     <Container>
       <Header />
-      <Content>
+      <FormContainer>
         <Title>포트폴리오를 올려봐요</Title>
-        <Description>포트폴리오 정보를 입력하고 맞춤형 질문을 받아보세요</Description>
-        <InputBackBox>
-          <TextArea
-            placeholder="Enter your portfolio details here..."
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            disabled={loading}
-          />
-          <SubmitButton onClick={handleButtonClick} disabled={loading}>
-            {loading ? <Spinner /> : "업로드"}
-          </SubmitButton>
-        </InputBackBox>
-      </Content>
+        <TextArea
+          placeholder="Enter your portfolio details here..."
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          disabled={loading}
+        />
+        <Button onClick={handleButtonClick} disabled={loading}>
+          {loading ? <Spinner /> : "업로드"}
+        </Button>
+      </FormContainer>
     </Container>
   );
 };
