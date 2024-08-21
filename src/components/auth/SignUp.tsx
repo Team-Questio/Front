@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Header from "./Header";
+import Header from "../shared/Header";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../utils/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "../styles/style.css";
+import "../../styles/style.css"
 
 interface InputFieldProps {
   type: string;
@@ -98,14 +98,9 @@ const SignUpBox: React.FC = () => {
       setLoading(true);
 
       try {
-        const response = await axios.post(
-          "https://api.questio.co.kr/api/v1/auth/email-auth",
-          JSON.stringify({ email }),
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+        const response = await api.post(
+          "/auth/email-auth",
+          JSON.stringify({ email })
         );
         console.log("Response:", response.data);
         toast.success("이메일로 인증 메일을 발송하였습니다.");
@@ -129,14 +124,11 @@ const SignUpBox: React.FC = () => {
       params.append("code", authCode);
 
       try {
-        const response = await axios.post(
-          "https://api.questio.co.kr/api/v1/auth/email-auth/verify",
+        const response = await api.post(
+          "/auth/email-auth/verify",
           JSON.stringify({ email }),
           {
             params: params,
-            headers: {
-              "Content-Type": "application/json", // Content-Type을 JSON으로 설정
-            },
           }
         );
         console.log("Response:", response.data);
@@ -163,13 +155,9 @@ const SignUpBox: React.FC = () => {
       setLoading(true);
 
       try {
-        const response = await axios.post(
-          "https://api.questio.co.kr/api/v1/users",
-          JSON.stringify({ username: email, password }), {
-            headers: {
-              "Content-Type": "application/json", // Content-Type을 JSON으로 설정
-            },
-          }
+        const response = await api.post(
+          "/users",
+          JSON.stringify({ username: email, password })
         );
         console.log("Response:", response.data);
         toast.success("회원가입이 완료되었습니다.");
@@ -250,15 +238,9 @@ const SignUpBox: React.FC = () => {
 };
 
 const SignUp: React.FC = () => {
-  const [darkMode, setDarkMode] = useState(false);
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
-
   return (
-    <div className={darkMode ? "dark" : "light"}>
-      <Header toggleDarkMode={toggleDarkMode} />
+    <div className={"dark"}>
+      <Header />
       <div className="wrapper">
         <SignUpBox />
       </div>

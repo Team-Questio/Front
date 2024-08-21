@@ -1,13 +1,10 @@
 import React from "react";
-import { CgDarkMode } from "react-icons/cg";
 
 import { useNavigate } from "react-router-dom";
 
-interface HeaderProps {
-  toggleDarkMode: () => void;
-}
+interface HeaderProps {}
 
-const Header: React.FC<HeaderProps> = ({ toggleDarkMode }) => {
+const Header: React.FC<HeaderProps> = () => {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
@@ -19,9 +16,6 @@ const Header: React.FC<HeaderProps> = ({ toggleDarkMode }) => {
       <div className="logo" onClick={handleButtonClick}>
         Questio
       </div>
-      <button onClick={toggleDarkMode} className="mode-toggle">
-        <CgDarkMode />
-      </button>
     </header>
   );
 };

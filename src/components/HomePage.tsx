@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import Header from "./Header";
+import React from "react";
+import Header from "./shared/Header";
 
 import { useNavigate } from "react-router-dom";
 
 import "../styles/style.css";
 
 const App: React.FC = () => {
-  const [darkMode, setDarkMode] = useState(false);
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
@@ -14,13 +13,9 @@ const App: React.FC = () => {
     console.log("hi2");
   };
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
-
   return (
-    <div className={darkMode ? "dark" : "light"}>
-      <Header toggleDarkMode={toggleDarkMode} />
+    <div className={"dark"}>
+      <Header />
       <div className="content">
         <h1>Questio와 면접을 준비해봐요</h1>
         <p>
