@@ -98,10 +98,7 @@ const SignUpBox: React.FC = () => {
       setLoading(true);
 
       try {
-        const response = await api.post(
-          "/auth/email-auth",
-          JSON.stringify({ email })
-        );
+        await api.post("/auth/email-auth", JSON.stringify({ email }));
         toast.success("이메일로 인증 메일을 발송하였습니다.");
         setIsEmailSend(true);
       } catch (error) {
@@ -123,13 +120,9 @@ const SignUpBox: React.FC = () => {
       params.append("code", authCode);
 
       try {
-        const response = await api.post(
-          "/auth/email-auth/verify",
-          JSON.stringify({ email }),
-          {
-            params: params,
-          }
-        );
+        await api.post("/auth/email-auth/verify", JSON.stringify({ email }), {
+          params: params,
+        });
         toast.success("인증되었습니다.");
         setIsAuthCheck(true);
       } catch (error) {
@@ -153,10 +146,7 @@ const SignUpBox: React.FC = () => {
       setLoading(true);
 
       try {
-        const response = await api.post(
-          "/users",
-          JSON.stringify({ username: email, password })
-        );
+        await api.post("/users", JSON.stringify({ username: email, password }));
         toast.success("회원가입이 완료되었습니다.");
         navigate("/portfolio-upload-text");
       } catch (error) {

@@ -119,10 +119,6 @@ const LoginBox: React.FC = () => {
         onChange={(e) => setPassword(e.target.value)}
       />
       <div className="login-sub-item">
-        <label>
-          <input type="checkbox" />
-          로그인 유지
-        </label>
         <div className="login-sub-item-sub">
           <div onClick={handleSignUpButtonClick} className="signup-link">
             회원가입

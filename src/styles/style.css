@@ -64,8 +64,7 @@ body {
 .header .start-button {
   padding: 10pt 20pt;
   font-size: 18px;
-  background-color: #1f2937;
-  border-color: #2d3748;
+  background-color: #2d3748;
   color: #ffffff;
   border: none;
   border-radius: 12px;
@@ -74,7 +73,7 @@ body {
 }
 
 .header .start-button:hover {
-  background-color: #2d3748;
+  background-color: #3c4960;
 }
 
 .content {
