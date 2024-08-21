@@ -6,6 +6,7 @@ import api from "../../utils/api";
 import "react-toastify/dist/ReactToastify.css";
 import "../../styles/style.css"
 
+
 const PortfolioUploadPageText: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
