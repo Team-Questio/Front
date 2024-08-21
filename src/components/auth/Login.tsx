@@ -44,14 +44,16 @@ const LoginBox: React.FC = () => {
     try {
       const response = await api.post("/auth/login", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          "Content-Type": "multipart/form-data",
+        },
       });
 
       if (response.status === 200) {
-        const token = response.data.token;
+        const token = response.data.accessToken;
+        const refreshToken = response.data.refreshToken;
         console.log("로그인 성공, 받은 토큰:", token);
         localStorage.setItem("token", token); // 토큰을 localStorage에 저장
+        localStorage.setItem("refreshToken", refreshToken); // 토큰을 localStorage에 저장
         toast.success("로그인 성공!");
         navigate("/portfolio-upload-text");
       } else {
