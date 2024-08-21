@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Header from "../shared/Header";
-import "../../styles/style.css"
+import "../../styles/style.css";
 
 import { useNavigate } from "react-router-dom";
 
@@ -97,7 +97,7 @@ const FindPassword: React.FC = () => {
 
 const FindPW: React.FC = () => {
   return (
-    <div className={"dark"}>
+    <div className={"light"}>
       <Header />
       <div className="wrapper">
         <FindPassword />

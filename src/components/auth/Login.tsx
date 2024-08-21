@@ -115,7 +115,7 @@ const LoginBox: React.FC = () => {
 
 const Login: React.FC = () => {
   return (
-    <div className={"dark"}>
+    <div className={"light"}>
       <Header />
       <div className="wrapper">
         <LoginBox />

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../utils/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "../../styles/style.css"
+import "../../styles/style.css";
 
 interface InputFieldProps {
   type: string;
@@ -239,7 +239,7 @@ const SignUpBox: React.FC = () => {
 
 const SignUp: React.FC = () => {
   return (
-    <div className={"dark"}>
+    <div className={"light"}>
       <Header />
       <div className="wrapper">
         <SignUpBox />
