@@ -61,13 +61,6 @@ body {
   font-size: 24px;
 }
 
-.header .mode-toggle {
-  background: none;
-  border: none;
-  color: #ffffff;
-  font-size: 30px;
-  cursor: pointer;
-}
 .content {
   display: flex;
   flex: 1;
@@ -104,7 +97,7 @@ body {
   box-sizing: border-box;
 }
 
-.content .start-button {
+.start-button {
   margin: 30pt 0;
   padding: 10pt 20pt;
   font-size: 18px;
@@ -116,7 +109,7 @@ body {
   transition: background-color 0.3s;
 }
 
-.content .start-button:hover {
+.start-button:hover {
   background-color: #2d3748;
 }
 
