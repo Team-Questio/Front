@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Header from "../shared/Header";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import api from "../../utils/api";
 import "react-toastify/dist/ReactToastify.css";
 import "../../styles/style.css"
@@ -56,7 +56,6 @@ const PortfolioUploadPageText: React.FC = () => {
           {loading && <div className="loading-spinner"></div>}
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

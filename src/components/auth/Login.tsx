@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../../styles/style.css";
 import KakaoLogin from "../shared/KakaoLogin";
 import api from "../../utils/api";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface InputFieldProps {
@@ -124,7 +124,6 @@ const Login: React.FC = () => {
       <div className="wrapper">
         <LoginBox />
       </div>
-      <ToastContainer />
     </div>
   );
 };

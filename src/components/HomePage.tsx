@@ -2,7 +2,6 @@ import React from "react";
 import Header from "./shared/Header";
 
 import { useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 
 import "../styles/style.css";
 
@@ -27,7 +26,6 @@ const App: React.FC = () => {
           시작해보기
         </button>
       </div>
-      <ToastContainer />
     </div>
   );
 };
