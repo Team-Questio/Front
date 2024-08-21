@@ -55,8 +55,10 @@ const Header: React.FC = () => {
   };
 
   return (
-    <div>
-      <div onClick={handleLogoClick}>Questio</div>
+    <div className="header">
+      <div className="logo" onClick={handleLogoClick}>
+        Questio
+      </div>
 
       {isAuthenticated ? (
         <UserIcon onClick={toggleDropdown}>
@@ -69,7 +71,9 @@ const Header: React.FC = () => {
           </DropdownMenu>
         </UserIcon>
       ) : (
-        <button onClick={handleButtonClick}>시작하기</button>
+        <button className="start-button" onClick={handleButtonClick}>
+          시작하기
+        </button>
       )}
     </div>
   );
