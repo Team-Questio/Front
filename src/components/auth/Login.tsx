@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../shared/Header";
 import { useNavigate } from "react-router-dom";
 import "../../styles/style.css";
@@ -6,6 +6,7 @@ import KakaoLogin from "../shared/KakaoLogin";
 import api from "../../utils/api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { jwtDecode } from "jwt-decode"; // JWT 디코딩을 위해 추가
 
 interface InputFieldProps {
   type: string;
@@ -53,7 +54,6 @@ const LoginBox: React.FC = () => {
         const refreshToken = response.data.refreshToken;
         localStorage.setItem("token", token); // 토큰을 localStorage에 저장
         localStorage.setItem("refreshToken", refreshToken); // 토큰을 localStorage에 저장
-        // toast 메시지와 navigate 호출을 조금 지연시켜 useAuth가 상태를 업데이트할 시간을 줍니다.
         setTimeout(() => {
           toast.success("로그인 성공!");
           navigate("/portfolio-upload-text");
@@ -73,6 +73,27 @@ const LoginBox: React.FC = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    // 컴포넌트 마운트 시 토큰 유효성 검사
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token) as { exp: number };
+        const currentTime = Date.now() / 1000;
+
+        if (decodedToken.exp > currentTime) {
+          // 토큰이 유효하면 자동으로 페이지 이동
+          api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+          navigate("/portfolio-upload-text"); // 이미 로그인된 경우 대시보드로 이동
+        }
+      } catch (error) {
+        console.error("토큰 디코딩 중 오류 발생:", error);
+        localStorage.removeItem("token"); // 유효하지 않은 토큰 제거
+        localStorage.removeItem("refreshToken");
+      }
+    }
+  }, [navigate]);
 
   const handleFindPWButtonClick = () => {
     navigate("/find-password");
