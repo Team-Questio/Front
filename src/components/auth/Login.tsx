@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Header from "./Header";
+import Header from "../shared/Header";
 import { useNavigate } from "react-router-dom";
-import "../styles/style.css";
-import KaKaoLogin from "./KaKaoLogin";
-import axios from "axios";
+import "../../styles/style.css";
+import KakaoLogin from "../shared/KakaoLogin";
+import api from "../../utils/api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -39,22 +39,17 @@ const LoginBox: React.FC = () => {
   const handleLogin = async () => {
     setLoading(true);
     try {
-      const response = await axios.post(
-        "https://api.questio.co.kr/api/v1/auth/login",
-        {
-          email,
-          password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json", // Content-Type을 JSON으로 설정
-          },
-        }
-      );
+      const response = await api.post("/auth/login", {
+        email,
+        password,
+      });
 
       console.log("요청 결과:", response); // 토큰을 콘솔에 출력
 
       if (response.status === 200) {
+        const token = response.data.token;
+        console.log("로그인 성공, 받은 토큰:", token);
+        localStorage.setItem("token", token); // 토큰을 localStorage에 저장
         toast.success("로그인 성공!");
         navigate("/portfolio-upload-text");
       } else {
@@ -112,22 +107,16 @@ const LoginBox: React.FC = () => {
         {loading ? "로딩 중..." : "로그인"}
       </button>
       <div>
-        <KaKaoLogin />
+        <KakaoLogin />
       </div>
     </div>
   );
 };
 
 const Login: React.FC = () => {
-  const [darkMode, setDarkMode] = useState(false);
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
-
   return (
-    <div className={darkMode ? "dark" : "light"}>
-      <Header toggleDarkMode={toggleDarkMode} />
+    <div className={"dark"}>
+      <Header />
       <div className="wrapper">
         <LoginBox />
       </div>

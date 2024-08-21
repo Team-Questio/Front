@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Header from "./Header";
-import "../styles/style-question-list-page.css";
+import Header from "../shared/Header";
+import "../../styles/style-question-list-page.css";
 import { CSSTransition } from "react-transition-group";
 
 import {
@@ -15,7 +15,6 @@ const QuestionListPage: React.FC = () => {
   const [portfolio] = useState<string>(
     "저는 1녀1남의 막내로 태어나 화목한 가정에서..."
   );
-  const [darkMode, setDarkMode] = useState(false);
   const [feedback, setFeedback] = useState([1, 0, -1, 1]);
 
   const questions = [
@@ -24,10 +23,6 @@ const QuestionListPage: React.FC = () => {
     "집에서 어떤 심부름 해보셨어요",
     "막내는 사랑을 많이 받나요",
   ];
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
 
   const toggleFeedBack = (index: number, position: string) => {
     if (position === "up") {
@@ -55,12 +50,12 @@ const QuestionListPage: React.FC = () => {
 
   return (
     <div
-      className={darkMode ? "dark" : "light"}
+      className={"dark"}
       onClick={() => {
         setSelectedQuestionIndex(-1);
       }}
     >
-      <Header toggleDarkMode={toggleDarkMode} />
+      <Header />
       <div className="content">
         <p className="title">나의 포트폴리오</p>
         <div className="portfolio-back-box">
@@ -80,8 +75,8 @@ const QuestionListPage: React.FC = () => {
                 className="question"
                 onClick={(e) => {
                   e.stopPropagation();
-                  
-                  /* 클릭 시 답변란 열리는 로직 */  
+
+                  /* 클릭 시 답변란 열리는 로직 */
                   // if (selectedQuestionIndex === index) {
                   //   setSelectedQuestionIndex(-1);
                   // } else {
