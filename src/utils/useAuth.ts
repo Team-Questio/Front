@@ -33,8 +33,6 @@ const useAuth = () => {
         localStorage.removeItem("refreshToken");
         navigate("/login");
       }
-    } else {
-      navigate("/login");
     }
     setIsLoading(false);
   }, [navigate]);
@@ -43,7 +41,7 @@ const useAuth = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
     setIsAuthenticated(false);
-    navigate("/login");
+    navigate("/");
   };
 
   return { isAuthenticated, isLoading, logout };
