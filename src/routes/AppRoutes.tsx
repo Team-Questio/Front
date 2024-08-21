@@ -1,4 +1,3 @@
-// src/routes/AppRoutes.tsx
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "../components/HomePage";
@@ -19,19 +18,23 @@ const AppRoutes: React.FC = () => {
 
       {/* 보호된 경로들 */}
       <Route
+        path="/portfolio-upload-text"
         element={
           <ProtectedRoute>
-            <React.Fragment />
+            <PortfolioUploadPageText />
           </ProtectedRoute>
         }
-      >
-        <Route
-          path="/portfolio-upload-text"
-          element={<PortfolioUploadPageText />}
-        />
-        <Route path="/question-list" element={<QuestionListPage />} />
-        {/* <Route path="/portfolio-upload-pdf" element={<PortfolioUploadPagePDF />} /> */}
-      </Route>
+      />
+      <Route
+        path="/question-list"
+        element={
+          <ProtectedRoute>
+            <QuestionListPage />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* <Route path="/portfolio-upload-pdf" element={<PortfolioUploadPagePDF />} /> */}
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
