@@ -1,10 +1,122 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import Header from "../shared/Header";
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "../../styles/style.css";
+
+// Styled Components
+const Container = styled.div`
+  background-color: #101827;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+`;
+
+const FormContainer = styled.div`
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 500px;
+  background-color: #1f2937;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+`;
+
+const InputContainer = styled.div`
+  width: 100%;
+  margin-bottom: 15px;
+`;
+
+const Input = styled.input<{ hasError?: boolean }>`
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid ${({ hasError }) => (hasError ? "#FF6B6B" : "#374151")};
+  border-radius: 10px;
+  background-color: #2d3748;
+  font-size: 16px;
+  color: white;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: #3c4960;
+    background-color: #374151;
+  }
+`;
+
+const ErrorMessage = styled.div`
+  color: #ff6b6b;
+  font-size: 12px;
+  margin-top: -8px;
+  margin-bottom: 10px;
+`;
+
+const CheckboxContainer = styled.div`
+  width: 100%;
+  margin-top: 10px;
+`;
+
+const Label = styled.label`
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #ffffff;
+`;
+
+const ButtonContainer = styled.div`
+  width: 100%;
+  margin-top: 20px;
+`;
+
+const Button = styled.button`
+  width: 100%;
+  padding: 12px;
+  background-color: #374151;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #2d3748;
+  }
+
+  &:disabled {
+    background-color: #2d3748;
+    cursor: not-allowed;
+  }
+`;
+
+const Spinner = styled.div`
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #ffffff;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
 
 interface InputFieldProps {
   type: string;
@@ -21,16 +133,16 @@ const InputField: React.FC<InputFieldProps> = ({
   onChange,
   errorMessage,
 }) => (
-  <div className="input-container">
-    <input
+  <InputContainer>
+    <Input
       type={type}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className={errorMessage ? "input-error" : ""}
+      hasError={!!errorMessage}
     />
-    {errorMessage && <div className="error-message">{errorMessage}</div>}
-  </div>
+    {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+  </InputContainer>
 );
 
 const SignUpBox: React.FC = () => {
@@ -89,7 +201,6 @@ const SignUpBox: React.FC = () => {
 
   const handleButtonClick = async () => {
     if (!isEmailSend) {
-      // 이메일 전송 단계
       if (emailError) {
         toast.error("유효한 이메일을 입력해주세요.");
         return;
@@ -108,7 +219,6 @@ const SignUpBox: React.FC = () => {
         setLoading(false);
       }
     } else if (!isAuthCheck) {
-      // 인증번호 확인 단계
       if (!authCode) {
         toast.error("인증번호를 입력해주세요.");
         return;
@@ -132,7 +242,6 @@ const SignUpBox: React.FC = () => {
         setLoading(false);
       }
     } else {
-      // 회원가입 단계
       if (passwordError || confirmPasswordError) {
         toast.error("비밀번호를 확인해주세요.");
         return;
@@ -159,8 +268,8 @@ const SignUpBox: React.FC = () => {
   };
 
   return (
-    <div className="form-container">
-      <h2>회원가입</h2>
+    <FormContainer>
+      <h2 style={{ color: "#ffffff", marginBottom: "20px" }}>회원가입</h2>
       <InputField
         type="text"
         placeholder="이메일을 입력해주세요"
@@ -192,8 +301,8 @@ const SignUpBox: React.FC = () => {
             onChange={handleConfirmPasswordChange}
             errorMessage={confirmPasswordError}
           />
-          <div className="checkbox-container">
-            <label>
+          <CheckboxContainer>
+            <Label>
               <input
                 type="checkbox"
                 checked={isChecked}
@@ -201,37 +310,33 @@ const SignUpBox: React.FC = () => {
                 disabled={loading}
               />
               개인정보처리방침 동의
-            </label>
-          </div>
+            </Label>
+          </CheckboxContainer>
         </>
       )}
-      <div className="button-container">
-        <button
-          className="form-button"
-          onClick={handleButtonClick}
-          disabled={loading}
-        >
-          {loading
-            ? "처리 중..."
-            : !isEmailSend
-            ? "이메일 보내기"
-            : !isAuthCheck
-            ? "인증하기"
-            : "회원가입"}
-        </button>
-      </div>
-    </div>
+      <ButtonContainer>
+        <Button onClick={handleButtonClick} disabled={loading}>
+          {loading ? (
+            <Spinner />
+          ) : !isEmailSend ? (
+            "이메일 보내기"
+          ) : !isAuthCheck ? (
+            "인증하기"
+          ) : (
+            "회원가입"
+          )}
+        </Button>
+      </ButtonContainer>
+    </FormContainer>
   );
 };
 
 const SignUp: React.FC = () => {
   return (
-    <div className={"light"}>
+    <Container>
       <Header />
-      <div className="wrapper">
-        <SignUpBox />
-      </div>
-    </div>
+      <SignUpBox />
+    </Container>
   );
 };
 
