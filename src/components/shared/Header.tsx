@@ -17,6 +17,9 @@ const HeaderContainer = styled.header`
 
 const Logo = styled.img`
   height: 50px;
+`;
+
+const LogoDiv = styled.div`
   cursor: pointer;
 `;
 
@@ -88,7 +91,9 @@ const Header: React.FC = () => {
 
   return (
     <HeaderContainer>
-      <Logo onClick={handleLogoClick} src="/img/Logo.svg" alt="questio" />
+      <LogoDiv onClick={handleLogoClick}>
+        <Logo src="/img/Logo.svg" alt="questio" />
+      </LogoDiv>
 
       {isAuthenticated ? (
         <UserIcon onClick={toggleDropdown}>
