@@ -98,7 +98,7 @@ const Header: React.FC = () => {
   return (
     <HeaderContainer>
       <LogoDiv onClick={handleLogoClick}>
-        <Logo src="/img/Logo.svg" alt="questio" />
+        <Logo src="/img/logo.svg" alt="questio" />
       </LogoDiv>
 
       {isAuthenticated ? (
