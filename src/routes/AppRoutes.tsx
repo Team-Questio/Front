@@ -7,6 +7,7 @@ import Login from "../components/auth/Login";
 import FindPW from "../components/auth/FindPW";
 import SignUp from "../components/auth/SignUp";
 import ProtectedRoute from "./ProtectedRoute";
+import PortfolioPage from "../components/portfolio/PortfolioPage";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -22,6 +23,14 @@ const AppRoutes: React.FC = () => {
         element={
           <ProtectedRoute>
             <PortfolioUploadPageText />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/portfolio"
+        element={
+          <ProtectedRoute>
+            <PortfolioPage />
           </ProtectedRoute>
         }
       />

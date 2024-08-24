@@ -232,8 +232,8 @@ const LoginBox: React.FC = () => {
       <SubItemContainer>
         <SubItem>
           <Link onClick={handleSignUpButtonClick}>회원가입</Link>
-          <div style={{ width: "10px" }} />
-          <Link onClick={handleFindPWButtonClick}>비밀번호 찾기</Link>
+          {/* <div style={{ width: "10px" }} />
+          <Link onClick={handleFindPWButtonClick}>비밀번호 찾기</Link> */}
         </SubItem>
       </SubItemContainer>
       <Button onClick={handleLogin} disabled={loading}>

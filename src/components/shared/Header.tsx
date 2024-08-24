@@ -6,19 +6,27 @@ import useAuth from "../../utils/useAuth"; // 로그인 상태 확인을 위한 
 
 // Styled Components
 const HeaderContainer = styled.header`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #1f2937;
-  padding: 15pt;
   box-sizing: border-box;
+  padding: 0px 15px;
   width: 100%;
+  height: 80px; /* 헤더의 높이 */
+  z-index: 1000; /* 다른 요소 위에 표시 */
 `;
 
-const Logo = styled.div`
-  font-size: 24px;
+const Logo = styled.img`
+  height: 50px;
+`;
+
+const LogoDiv = styled.div`
   cursor: pointer;
-  color: white;
 `;
 
 const StartButton = styled.button`
@@ -89,7 +97,9 @@ const Header: React.FC = () => {
 
   return (
     <HeaderContainer>
-      <Logo onClick={handleLogoClick}>Questio</Logo>
+      <LogoDiv onClick={handleLogoClick}>
+        <Logo src="/img/Logo.svg" alt="questio" />
+      </LogoDiv>
 
       {isAuthenticated ? (
         <UserIcon onClick={toggleDropdown}>
