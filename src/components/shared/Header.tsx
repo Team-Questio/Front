@@ -15,10 +15,9 @@ const HeaderContainer = styled.header`
   width: 100%;
 `;
 
-const Logo = styled.div`
-  font-size: 24px;
+const Logo = styled.img`
+  height: 50px;
   cursor: pointer;
-  color: white;
 `;
 
 const StartButton = styled.button`
@@ -89,7 +88,7 @@ const Header: React.FC = () => {
 
   return (
     <HeaderContainer>
-      <Logo onClick={handleLogoClick}>Questio</Logo>
+      <Logo onClick={handleLogoClick} src="/img/Logo.svg" alt="questio" />
 
       {isAuthenticated ? (
         <UserIcon onClick={toggleDropdown}>
