@@ -9,6 +9,10 @@ const KakaoLogo = styled.img`
   cursor: pointer;
 `;
 
+const KakaoDiv = styled.div`
+  cursor: pointer;
+`;
+
 const KakaoLogin: React.FC = () => {
   const kakaoAuthUrl = `https://api.questio.co.kr/api/v1/auth/oauth/kakao`;
 
@@ -17,9 +21,9 @@ const KakaoLogin: React.FC = () => {
   };
 
   return (
-    <div onClick={loginHandler}>
+    <KakaoDiv onClick={loginHandler}>
       <KakaoLogo src="/img/kakaoLogo.png" alt="kakao" />
-    </div>
+    </KakaoDiv>
   );
 };
 
