@@ -166,7 +166,7 @@ const LoginBox: React.FC = () => {
         localStorage.setItem("refreshToken", refreshToken); // 토큰을 localStorage에 저장
         setTimeout(() => {
           toast.success("로그인 성공!");
-          navigate("/portfolio-upload-text");
+          navigate("/portfolio");
         }, 100); // 100ms 지연 후 리디렉션
       } else {
         toast.error("로그인 실패. 다시 시도하세요.");
@@ -195,7 +195,7 @@ const LoginBox: React.FC = () => {
         if (decodedToken.exp > currentTime) {
           // 토큰이 유효하면 자동으로 페이지 이동
           api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-          navigate("/portfolio-upload-text"); // 이미 로그인된 경우 대시보드로 이동
+          navigate("/portfolio"); // 이미 로그인된 경우 대시보드로 이동
         }
       } catch (error) {
         console.error("토큰 디코딩 중 오류 발생:", error);
@@ -239,7 +239,6 @@ const LoginBox: React.FC = () => {
       <Button onClick={handleLogin} disabled={loading}>
         {loading ? <Spinner /> : "로그인"}
       </Button>
-
       <KakaoLogin />
     </FormContainer>
   );

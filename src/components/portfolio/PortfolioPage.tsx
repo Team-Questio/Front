@@ -110,6 +110,7 @@ const QuestionList = styled.div`
   width: 80%;
   height: 100%;
   margin-top: 20px;
+  margin-bottom: 100px;
   gap: 10px;
 `;
 
@@ -312,26 +313,6 @@ const PortfolioPage: React.FC = () => {
     "화목한 가정은 어떻게 만들어질까요",
     "집에서 어떤 심부름 해보셨어요",
     "막내는 사랑을 많이 받나요",
-    "당신은 막내로서 어떤 역할을 주로 수행했나요",
-    "화목한 가정은 어떻게 만들어질까요",
-    "집에서 어떤 심부름 해보셨어요",
-    "막내는 사랑을 많이 받나요",
-    "당신은 막내로서 어떤 역할을 주로 수행했나요",
-    "화목한 가정은 어떻게 만들어질까요",
-    "집에서 어떤 심부름 해보셨어요",
-    "막내는 사랑을 많이 받나요",
-    "당신은 막내로서 어떤 역할을 주로 수행했나요",
-    "화목한 가정은 어떻게 만들어질까요",
-    "집에서 어떤 심부름 해보셨어요",
-    "막내는 사랑을 많이 받나요",
-    "당신은 막내로서 어떤 역할을 주로 수행했나요",
-    "화목한 가정은 어떻게 만들어질까요",
-    "집에서 어떤 심부름 해보셨어요",
-    "막내는 사랑을 많이 받나요",
-    "당신은 막내로서 어떤 역할을 주로 수행했나요",
-    "화목한 가정은 어떻게 만들어질까요",
-    "집에서 어떤 심부름 해보셨어요",
-    "막내는 사랑을 많이 받나요",
   ];
 
   const toggleFeedBack = (index: number, position: string) => {
@@ -367,7 +348,7 @@ const PortfolioPage: React.FC = () => {
 
       toast.success("포트폴리오가 성공적으로 업로드되었습니다!");
       setLoading(false);
-      setPortfolioList([...portfolioList, newPortfolio]);
+      setPortfolioList([newPortfolio, ...portfolioList]);
       setShowModal(false);
       setNewPortfolio("");
     } catch (error) {
@@ -477,6 +458,16 @@ const PortfolioPage: React.FC = () => {
           onChange={(e) => setNewPortfolio(e.target.value)}
           disabled={loading}
         />
+        <Button onClick={handleAddPortfolio} disabled={loading}>
+          {loading ? (
+            <Spinner />
+          ) : (
+            <>
+              <PlusIcon />
+              <div>포트폴리오 추가</div>
+            </>
+          )}
+        </Button>
       </Modal>
     </>
   );

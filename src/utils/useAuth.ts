@@ -27,7 +27,7 @@ const useAuth = () => {
             setIsAuthenticated(true);
             api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
             if (window.location.pathname === "/login") {
-              navigate("/portfolio-upload-text");
+              navigate("/portfolio");
             }
           } else {
             localStorage.removeItem("token");
