@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import api from "../../utils/api";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "./Modal"; // 모달 컴포넌트 임포트
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -292,6 +293,41 @@ const Spinner = styled.div`
   }
 `;
 
+const FeedbackModalContent = styled.div`
+  width: 100%;
+`;
+
+const FeedbackTextArea = styled.textarea`
+  width: 95%;
+  height: 100px;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #374151;
+  border-radius: 10px;
+  background-color: #2d3748;
+  font-size: 16px;
+  color: white;
+  resize: none;
+
+  &:focus {
+    outline: none;
+    border-color: #3c4960;
+    background-color: #374151;
+  }
+`;
+
+const FeedbackTitle = styled.h2`
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #ffffff;
+`;
+
+const FeedbackDescription = styled.p`
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #ffffff;
+`;
+
 const PortfolioPage: React.FC = () => {
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState<
     number | null
@@ -303,6 +339,8 @@ const PortfolioPage: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [newPortfolio, setNewPortfolio] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState<boolean>(false);
+  const [serviceFeedback, setServiceFeedback] = useState<string>("");
 
   const questions = [
     "당신은 막내로서 어떤 역할을 주로 수행했나요",
@@ -351,8 +389,45 @@ const PortfolioPage: React.FC = () => {
       setPortfolioList([newPortfolio, ...portfolioList]);
       setShowModal(false);
       setNewPortfolio("");
+
+      // 피드백 모달 표시
+      setShowFeedbackModal(true);
     } catch (error) {
-      toast.error("업로드 중 오류가 발생했습니다. 다시 시도해주세요.");
+      if (axios.isAxiosError(error)) {
+        // error가 AxiosError 타입임을 보장
+        if (error.response?.status === 403) {
+          toast.error(
+            "업로드 횟수 제한에 도달했습니다. 나중에 다시 시도해주세요."
+          );
+        } else {
+          toast.error("업로드 중 오류가 발생했습니다. 다시 시도해주세요.");
+        }
+      } else {
+        // 다른 타입의 오류 처리
+        toast.error("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
+      }
+      setLoading(false);
+    }
+  };
+
+  const handleSendServiceFeedback = async () => {
+    setLoading(true);
+
+    try {
+      // const response = await api.post(
+      //   "/portfolio",
+      //   JSON.stringify({ content: newPortfolio })
+      // );
+
+      // console.log("Response:", response.data);
+
+      toast.success("피드백 고마워요!");
+      setLoading(false);
+      setShowFeedbackModal(false);
+      setServiceFeedback("");
+    } catch (error) {
+      // 다른 타입의 오류 처리
+      toast.error("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
       setLoading(false);
     }
   };
@@ -450,7 +525,7 @@ const PortfolioPage: React.FC = () => {
       <Modal
         show={showModal}
         onClose={() => setShowModal(false)}
-        onSubmit={handleAddPortfolio}
+        title="포트폴리오를 업로드 해봐요"
       >
         <TextArea
           placeholder="Enter your portfolio details here..."
@@ -468,6 +543,24 @@ const PortfolioPage: React.FC = () => {
             </>
           )}
         </Button>
+      </Modal>
+      <Modal
+        show={showFeedbackModal}
+        onClose={() => setShowFeedbackModal(false)}
+        title="피드백을 남겨주세요"
+      >
+        <FeedbackModalContent>
+          <FeedbackDescription>
+            포트폴리오 업로드 과정에 대한 피드백을 남겨주세요.
+          </FeedbackDescription>
+          <FeedbackTextArea
+            value={serviceFeedback}
+            placeholder="피드백을 입력하세요..."
+            onChange={(e) => setServiceFeedback(e.target.value)}
+            disabled={loading}
+          />
+          <Button onClick={handleSendServiceFeedback}>제출</Button>
+        </FeedbackModalContent>
       </Modal>
     </>
   );
