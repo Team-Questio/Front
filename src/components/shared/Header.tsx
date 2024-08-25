@@ -105,9 +105,6 @@ const Header: React.FC = () => {
         <UserIcon onClick={toggleDropdown}>
           <FaUserCircle size={30} />
           <DropdownMenu $show={dropdownVisible}>
-            <DropdownItem onClick={() => navigate("/profile")}>
-              나의 정보
-            </DropdownItem>
             <DropdownItem onClick={handleLogout}>로그아웃</DropdownItem>
           </DropdownMenu>
         </UserIcon>
