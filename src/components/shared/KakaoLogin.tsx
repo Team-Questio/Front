@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import api from "../../utils/api";
 
 const KakaoLogo = styled.img`
   margin-top: 20px;
@@ -9,18 +10,21 @@ const KakaoLogo = styled.img`
 `;
 
 const KakaoLogin: React.FC = () => {
-  const restApiKey: string | undefined = process.env.REACT_APP_REST_API_KEY;
-  const redirectUrl: string | undefined =
-    process.env.REACT_APP_KAKAO_REDIRECT_URL;
+  const kakaoAuthUrl = `https://questio.co.kr/api/v1/auth/oauth/kakao`;
 
-  const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${restApiKey}&redirect_uri=${redirectUrl}&response_type=code`;
+  const loginHandler = async () => {
+    console.log("clicked");
+    const response = await api.get(kakaoAuthUrl);
 
-  const loginHandler = () => {
-    window.location.href = kakaoAuthUrl;
+    console.log(response);
+
+    // window.location.href = kakaoAuthUrl;
   };
 
   return (
-    <KakaoLogo src="/img/kakaoLogo.png" alt="kakao" onClick={loginHandler} />
+    <div onClick={loginHandler}>
+      <KakaoLogo src="/img/kakaoLogo.png" alt="kakao" />
+    </div>
   );
 };
 

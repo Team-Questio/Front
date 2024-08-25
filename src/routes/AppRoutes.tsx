@@ -1,8 +1,6 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "../components/HomePage";
-import PortfolioUploadPageText from "../components/portfolio/PortfolioUploadPage";
-import QuestionListPage from "../components/portfolio/QuestionListPage";
 import Login from "../components/auth/Login";
 import FindPW from "../components/auth/FindPW";
 import SignUp from "../components/auth/SignUp";
@@ -19,14 +17,6 @@ const AppRoutes: React.FC = () => {
 
       {/* 보호된 경로들 */}
       <Route
-        path="/portfolio-upload-text"
-        element={
-          <ProtectedRoute>
-            <PortfolioUploadPageText />
-          </ProtectedRoute>
-        }
-      />
-      <Route
         path="/portfolio"
         element={
           <ProtectedRoute>
@@ -34,17 +24,6 @@ const AppRoutes: React.FC = () => {
           </ProtectedRoute>
         }
       />
-      <Route
-        path="/question-list"
-        element={
-          <ProtectedRoute>
-            <QuestionListPage />
-          </ProtectedRoute>
-        }
-      />
-
-      {/* <Route path="/portfolio-upload-pdf" element={<PortfolioUploadPagePDF />} /> */}
-
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

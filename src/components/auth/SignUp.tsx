@@ -257,7 +257,7 @@ const SignUpBox: React.FC = () => {
       try {
         await api.post("/users", JSON.stringify({ username: email, password }));
         toast.success("회원가입이 완료되었습니다.");
-        navigate("/portfolio-upload-text");
+        navigate("/login");
       } catch (error) {
         console.error(error);
         toast.error("회원가입에 실패했습니다. 다시 시도해주세요.");

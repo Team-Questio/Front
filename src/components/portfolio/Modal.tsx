@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { FaTimes } from "react-icons/fa"; // X 이모티콘 임포트
 
 // 모달 배경
 const ModalBackground = styled.div<{ show: boolean }>`
@@ -22,31 +23,20 @@ const ModalContent = styled.div`
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   width: 500px;
+  position: relative; /* 상대 위치로 변경 */
+  display: flex;
+  flex-direction: column;
+  align-items: end;
 `;
 
-const ModalButton = styled.button`
-  margin-top: 20px;
-  width: 100%;
-  padding: 12px;
-  background-color: #374151;
-  border: none;
-  border-radius: 5px;
-  color: #ffffff;
-  font-size: 16px;
+// X 이모티콘 스타일
+const CloseIcon = styled(FaTimes)`
+  color: red;
   cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #2d3748;
-  }
-
-  &:disabled {
-    background-color: #2d3748;
-    cursor: not-allowed;
-  }
+  font-size: 20px;
+  margin-bottom: 10px;
 `;
 
-// 모달 컴포넌트
 interface ModalProps {
   show: boolean;
   onClose: () => void;
@@ -55,13 +45,12 @@ interface ModalProps {
 }
 
 // 모달 컴포넌트
-const Modal: React.FC<ModalProps> = ({ show, onClose, onSubmit, children }) => {
+const Modal: React.FC<ModalProps> = ({ show, onClose, children }) => {
   return (
     <ModalBackground show={show}>
       <ModalContent>
+        <CloseIcon onClick={onClose} /> {/* X 이모티콘 추가 */}
         {children}
-        <ModalButton onClick={onSubmit}>업로드</ModalButton>
-        <ModalButton onClick={onClose}>취소</ModalButton>
       </ModalContent>
     </ModalBackground>
   );

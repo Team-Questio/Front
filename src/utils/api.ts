@@ -9,7 +9,7 @@ const mockResponse: AxiosResponse<any> = {
   statusText: "OK",
   headers: {},
   config: {
-    headers: new AxiosHeaders()
+    headers: new AxiosHeaders(),
   },
 };
 
