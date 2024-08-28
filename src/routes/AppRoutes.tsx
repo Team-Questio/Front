@@ -15,7 +15,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/find-password" element={<FindPW />} />
-      <Route path="/oath" element={<OAuthCallback />} />
+      <Route path="/oauth" element={<OAuthCallback />} />
 
       {/* 보호된 경로들 */}
       <Route
