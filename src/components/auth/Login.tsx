@@ -160,9 +160,9 @@ const LoginBox: React.FC = () => {
       });
 
       if (response.status === 200) {
-        const token = response.data.accessToken;
+        const accessToken = response.data.accessToken;
         const refreshToken = response.data.refreshToken;
-        localStorage.setItem("token", token); // 토큰을 localStorage에 저장
+        localStorage.setItem("accessToken", accessToken); // 토큰을 localStorage에 저장
         localStorage.setItem("refreshToken", refreshToken); // 토큰을 localStorage에 저장
         setTimeout(() => {
           toast.success("로그인 성공!");
@@ -186,20 +186,20 @@ const LoginBox: React.FC = () => {
 
   useEffect(() => {
     // 컴포넌트 마운트 시 토큰 유효성 검사
-    const token = localStorage.getItem("token");
-    if (token) {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
       try {
-        const decodedToken = jwtDecode(token) as { exp: number };
+        const decodedToken = jwtDecode(accessToken) as { exp: number };
         const currentTime = Date.now() / 1000;
 
         if (decodedToken.exp > currentTime) {
           // 토큰이 유효하면 자동으로 페이지 이동
-          api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+          api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
           navigate("/portfolio"); // 이미 로그인된 경우 대시보드로 이동
         }
       } catch (error) {
         console.error("토큰 디코딩 중 오류 발생:", error);
-        localStorage.removeItem("token"); // 유효하지 않은 토큰 제거
+        localStorage.removeItem("accessToken"); // 유효하지 않은 토큰 제거
         localStorage.removeItem("refreshToken");
       }
     }
