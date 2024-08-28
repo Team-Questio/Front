@@ -231,7 +231,7 @@ const TextArea = styled.textarea`
   font-size: 16px;
   color: white;
   box-sizing: border-box;
-  height: 200px;
+  height: 100%;
   resize: none;
 
   &:focus {
@@ -243,6 +243,36 @@ const TextArea = styled.textarea`
 
 const Button = styled.button`
   width: 100%;
+  padding: 12px;
+  background-color: #374151;
+  border: none;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+
+  white-space: nowrap;
+  overflow-x: clip;
+  text-overflow: ellipsis;
+
+  &:hover {
+    background-color: #2d3748;
+  }
+
+  &:disabled {
+    background-color: #2d3748;
+    cursor: not-allowed;
+  }
+`;
+
+const ModalButton = styled.button`
+  width: 50%;
   padding: 12px;
   background-color: #374151;
   border: none;
@@ -293,13 +323,9 @@ const Spinner = styled.div`
   }
 `;
 
-const FeedbackModalContent = styled.div`
-  width: 100%;
-`;
-
 const FeedbackTextArea = styled.textarea`
   width: 95%;
-  height: 100px;
+  height: 95%;
   padding: 12px;
   margin: 10px 0;
   border: 1px solid #374151;
@@ -314,18 +340,6 @@ const FeedbackTextArea = styled.textarea`
     border-color: #3c4960;
     background-color: #374151;
   }
-`;
-
-const FeedbackTitle = styled.h2`
-  margin-bottom: 10px;
-  font-size: 20px;
-  color: #ffffff;
-`;
-
-const FeedbackDescription = styled.p`
-  margin-bottom: 10px;
-  font-size: 16px;
-  color: #ffffff;
 `;
 
 const PortfolioPage: React.FC = () => {
@@ -533,34 +547,28 @@ const PortfolioPage: React.FC = () => {
           onChange={(e) => setNewPortfolio(e.target.value)}
           disabled={loading}
         />
-        <Button onClick={handleAddPortfolio} disabled={loading}>
+        <ModalButton onClick={handleAddPortfolio} disabled={loading}>
           {loading ? (
             <Spinner />
           ) : (
             <>
-              <PlusIcon />
-              <div>포트폴리오 추가</div>
+              <div>질문 샐성하기</div>
             </>
           )}
-        </Button>
+        </ModalButton>
       </Modal>
       <Modal
         show={showFeedbackModal}
         onClose={() => setShowFeedbackModal(false)}
         title="피드백을 남겨주세요"
       >
-        <FeedbackModalContent>
-          <FeedbackDescription>
-            포트폴리오 업로드 과정에 대한 피드백을 남겨주세요.
-          </FeedbackDescription>
-          <FeedbackTextArea
-            value={serviceFeedback}
-            placeholder="피드백을 입력하세요..."
-            onChange={(e) => setServiceFeedback(e.target.value)}
-            disabled={loading}
-          />
-          <Button onClick={handleSendServiceFeedback}>제출</Button>
-        </FeedbackModalContent>
+        <FeedbackTextArea
+          value={serviceFeedback}
+          placeholder="피드백을 입력하세요..."
+          onChange={(e) => setServiceFeedback(e.target.value)}
+          disabled={loading}
+        />
+        <ModalButton onClick={handleSendServiceFeedback}>제출</ModalButton>
       </Modal>
     </>
   );

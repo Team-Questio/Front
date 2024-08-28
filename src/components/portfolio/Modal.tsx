@@ -23,11 +23,12 @@ const ModalContent = styled.div`
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  width: 500px;
+  width: 70%;
+  height: 70%;
   position: relative; /* 상대 위치로 변경 */
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: center;
 `;
 
 const ModalHeader = styled.div`
