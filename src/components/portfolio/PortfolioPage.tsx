@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "../shared/Header";
-import { CSSTransition } from "react-transition-group";
 import {
   FaRegThumbsDown,
   FaRegThumbsUp,
@@ -9,6 +8,15 @@ import {
   FaThumbsUp,
   FaPlusCircle,
 } from "react-icons/fa";
+
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "../../redux/useAppDispatch";
+import { RootState } from "../../redux/store";
+import {
+  setSelectedPortfolioIndex,
+  fetchPortfolio,
+  setPortfolio,
+} from "../../redux/portfolioSlice";
 
 import { toast } from "react-toastify";
 import api from "../../utils/api";
@@ -155,72 +163,6 @@ const QuestionFeedbackBox = styled.div`
   padding: 0px 20px;
 `;
 
-const Answer = styled.div`
-  background-color: #2b3644;
-  align-items: center;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  width: 100%;
-  box-sizing: border-box;
-
-  &.answer-enter {
-    max-height: 0;
-    opacity: 0;
-  }
-
-  &.answer-enter-active {
-    max-height: 200px;
-    opacity: 1;
-    transition: max-height 200ms ease-in, opacity 200ms ease-in;
-  }
-
-  &.answer-enter-done {
-    max-height: fit-content;
-    opacity: 1;
-  }
-
-  &.answer-exit {
-    max-height: 200px;
-    opacity: 1;
-  }
-
-  &.answer-exit-active {
-    max-height: 0;
-    opacity: 0;
-    transition: max-height 200ms ease-in, opacity 200ms ease-in;
-  }
-`;
-
-const AnswerTextArea = styled.textarea`
-  width: 100%;
-  background-color: #404957;
-  flex: 1;
-  margin-top: 5px;
-  padding: 10px;
-  border-radius: 10px;
-  color: #ffffff;
-  border: 1px solid #ffffff;
-  resize: none;
-`;
-
-const AnswerButton = styled.button`
-  margin-top: 10px;
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  background-color: #374151;
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #2d3748;
-  }
-`;
-
 const TextArea = styled.textarea`
   width: 100%;
   padding: 12px;
@@ -342,54 +284,39 @@ const FeedbackTextArea = styled.textarea`
   }
 `;
 
-interface Question {
-  questId: number;
-  question: string;
-  feedback?: number;
-}
-
-interface Portfolio {
-  portfolioId: number;
-  content: string;
-}
-
-interface PortfolioData {
-  portfolio: Portfolio;
-  quests: Question[];
-}
-
 const PortfolioPage: React.FC = () => {
+  const { portfolio, selectedPortfolioIndex } = useSelector(
+    (state: RootState) => state.portfolio
+  );
+  const dispatch = useAppDispatch();
+
+  const [pageLoading, setPageLoading] = useState<boolean>(false);
+
   const [showModal, setShowModal] = useState<boolean>(false);
   const [newPortfolio, setNewPortfolio] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState<boolean>(false);
   const [serviceFeedback, setServiceFeedback] = useState<string>("");
 
-  const [selectedQuestionIndex, setSelectedQuestionIndex] = useState<
-    number | null
-  >(null);
-  const [portfolioData, setPortfolioData] = useState<PortfolioData[]>([]); // 포트폴리오 데이터 상태 추가
-  const [questions, setQuestions] = useState<Question[]>([]); // 질문 리스트 상태 추가
-
   const toggleFeedBack = (questId: number, feedback: number) => {
-    // questions 배열을 map으로 순회하면서 questId에 해당하는 question을 업데이트
-    const updatedQuestions = questions.map((q) => {
-      if (q.questId === questId) {
-        api.patch("/portfolio/quest/" + questId, {
-          feedback: feedback,
-        });
+    if (selectedPortfolioIndex === null) return;
 
-        return {
-          ...q,
-          feedback: feedback,
-        };
-      }
-      // questId가 일치하지 않으면 원래 객체 그대로 반환
-      return q;
+    // 포트폴리오 업데이트
+    const updatedPortfolio = portfolio.map((p) => {
+      if (p.portfolio.portfolioId !== selectedPortfolioIndex) return p;
+
+      const updatedQuests = p.quests.map((q) => {
+        if (q.questId === questId) {
+          api.patch(`/portfolio/quest/${questId}`, { feedback });
+          return { ...q, feedback };
+        }
+        return q;
+      });
+
+      return { ...p, quests: updatedQuests };
     });
 
     // 상태 업데이트
-    setQuestions(updatedQuestions);
+    dispatch(setPortfolio(updatedPortfolio));
 
     toast.success("피드백 보냈어요!");
   };
@@ -400,7 +327,7 @@ const PortfolioPage: React.FC = () => {
       return;
     }
 
-    setLoading(true);
+    setPageLoading(true);
 
     try {
       const response = await api.post(
@@ -411,8 +338,8 @@ const PortfolioPage: React.FC = () => {
       console.log("Response:", response.data);
 
       toast.success("포트폴리오가 성공적으로 업로드되었습니다!");
-      setLoading(false);
-      fetchPortfolioData();
+      setPageLoading(false);
+      dispatch(fetchPortfolio());
       setShowModal(false);
       setNewPortfolio("");
 
@@ -429,12 +356,12 @@ const PortfolioPage: React.FC = () => {
       } else {
         toast.error("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
       }
-      setLoading(false);
+      setPageLoading(false);
     }
   };
 
   const handleSendServiceFeedback = async () => {
-    setLoading(true);
+    setPageLoading(true);
 
     try {
       const response = await api.post(
@@ -444,31 +371,21 @@ const PortfolioPage: React.FC = () => {
       console.log("Response:", response.data);
 
       toast.success("피드백 고마워요!");
-      setLoading(false);
+      setPageLoading(false);
       setShowFeedbackModal(false);
       setServiceFeedback("");
     } catch (error) {
       toast.error("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
-      setLoading(false);
-    }
-  };
-
-  const fetchPortfolioData = async () => {
-    try {
-      const response = await api.get<PortfolioData[]>("/portfolio");
-      setPortfolioData(response.data);
-    } catch (error) {
-      toast.error("포트폴리오 데이터를 가져오는데 실패했습니다.");
+      setPageLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchPortfolioData();
-  }, []);
+    dispatch(fetchPortfolio());
+  }, [dispatch]);
 
   const handlePortfolioClick = (index: number) => {
-    setSelectedQuestionIndex(index);
-    setQuestions(portfolioData[index].quests);
+    dispatch(setSelectedPortfolioIndex(index));
   };
 
   return (
@@ -480,9 +397,9 @@ const PortfolioPage: React.FC = () => {
             <PlusIcon />
             <div>포트폴리오 추가</div>
           </Button>
-          {portfolioData.map((portfolio, index) => (
+          {portfolio.map((portfolio, index) => (
             <PortfolioItem
-              key={portfolio.portfolio.portfolioId}
+              key={index}
               onClick={() => handlePortfolioClick(index)}
             >
               {portfolio.portfolio.content}
@@ -490,82 +407,60 @@ const PortfolioPage: React.FC = () => {
           ))}
         </Sidebar>
         <MainContent>
-          {selectedQuestionIndex !== null && (
+          {selectedPortfolioIndex !== null && (
             <>
               <Title>나의 포트폴리오</Title>
               <PortfolioBackBox>
                 <PortfolioTextArea>
-                  {portfolioData[selectedQuestionIndex].portfolio.content}
+                  {portfolio[selectedPortfolioIndex].portfolio.content}
                 </PortfolioTextArea>
               </PortfolioBackBox>
               <Title>예상 면접 질문</Title>
               <QuestionList>
-                {questions.map((question, index) => (
-                  <QuestionBox
-                    key={question.questId}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <Question
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        // setSelectedQuestionIndex(
-                        //   selectedQuestionIndex === index ? null : index
-                        // );
-                      }}
+                {portfolio[selectedPortfolioIndex ?? 0].quests.map(
+                  (question, index) => (
+                    <QuestionBox
+                      key={question.questId}
+                      onClick={(e) => e.stopPropagation()}
                     >
-                      <QuestionContent>
-                        <QuestionContentMain>
-                          {index + 1}. {question.question}
-                        </QuestionContentMain>
-                        <QuestionFeedbackBox>
-                          {(question.feedback ?? 0) != 1 ? (
-                            <FaRegThumbsUp
-                              onClick={() =>
-                                toggleFeedBack(question.questId, 1)
-                              }
-                            />
-                          ) : (
-                            <FaThumbsUp
-                              onClick={() =>
-                                toggleFeedBack(question.questId, 0)
-                              }
-                            />
-                          )}
-                          {(question.feedback ?? 0) != -1 ? (
-                            <FaRegThumbsDown
-                              onClick={() =>
-                                toggleFeedBack(question.questId, -1)
-                              }
-                            />
-                          ) : (
-                            <FaThumbsDown
-                              onClick={() =>
-                                toggleFeedBack(question.questId, 0)
-                              }
-                            />
-                          )}
-                        </QuestionFeedbackBox>
-                      </QuestionContent>
-                    </Question>
-                    {selectedQuestionIndex === index ? (
-                      <>
-                        <CSSTransition
-                          in={index === selectedQuestionIndex}
-                          timeout={200}
-                          classNames="answer"
-                          unmountOnExit
-                        >
-                          <Answer>
-                            <AnswerTextArea placeholder="여기에 질문에 답을 적어주세요..." />
-                            <AnswerButton>저장</AnswerButton>
-                          </Answer>
-                        </CSSTransition>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </QuestionBox>
-                ))}
+                      <Question>
+                        <QuestionContent>
+                          <QuestionContentMain>
+                            {index + 1}. {question.question}
+                          </QuestionContentMain>
+                          <QuestionFeedbackBox>
+                            {(question.feedback ?? 0) !== 1 ? (
+                              <FaRegThumbsUp
+                                onClick={() =>
+                                  toggleFeedBack(question.questId, 1)
+                                }
+                              />
+                            ) : (
+                              <FaThumbsUp
+                                onClick={() =>
+                                  toggleFeedBack(question.questId, 0)
+                                }
+                              />
+                            )}
+                            {(question.feedback ?? 0) !== -1 ? (
+                              <FaRegThumbsDown
+                                onClick={() =>
+                                  toggleFeedBack(question.questId, -1)
+                                }
+                              />
+                            ) : (
+                              <FaThumbsDown
+                                onClick={() =>
+                                  toggleFeedBack(question.questId, 0)
+                                }
+                              />
+                            )}
+                          </QuestionFeedbackBox>
+                        </QuestionContent>
+                      </Question>
+                    </QuestionBox>
+                  )
+                )}
               </QuestionList>
             </>
           )}
@@ -581,10 +476,10 @@ const PortfolioPage: React.FC = () => {
           placeholder="Enter your portfolio details here..."
           value={newPortfolio}
           onChange={(e) => setNewPortfolio(e.target.value)}
-          disabled={loading}
+          disabled={pageLoading}
         />
-        <ModalButton onClick={handleAddPortfolio} disabled={loading}>
-          {loading ? (
+        <ModalButton onClick={handleAddPortfolio} disabled={pageLoading}>
+          {pageLoading ? (
             <Spinner />
           ) : (
             <>
@@ -602,7 +497,7 @@ const PortfolioPage: React.FC = () => {
           value={serviceFeedback}
           placeholder="피드백을 입력하세요..."
           onChange={(e) => setServiceFeedback(e.target.value)}
-          disabled={loading}
+          disabled={pageLoading}
         />
         <ModalButton onClick={handleSendServiceFeedback}>제출</ModalButton>
       </Modal>

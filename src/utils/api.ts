@@ -47,9 +47,8 @@ const mockResponse = (
               ],
             },
           ],
-          // status: 200,
-          status: 403,
-          statusText: "Forbidden",
+          status: 200,
+          statusText: "OK",
           headers: {},
           config: { headers: new AxiosHeaders() },
         };

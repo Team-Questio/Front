@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import api from "../../utils/api";
 
 const isDevelopment = process.env.NODE_ENV === "development";
 
