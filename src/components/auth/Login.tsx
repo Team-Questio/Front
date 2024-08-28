@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../shared/Header";
 import { useNavigate } from "react-router-dom";
-import KakaoLogin from "../shared/KakaoLogin";
+import AuthLoginIcon from "../shared/AuthLoginIcon";
 import api from "../../utils/api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -118,6 +118,12 @@ const Spinner = styled.div`
   }
 `;
 
+const AuthLoginBox = styled.div`
+  margin-top: 20px;
+  display: flex;
+  gap: 30px;
+`;
+
 interface InputFieldProps {
   type: string;
   placeholder: string;
@@ -194,7 +200,9 @@ const LoginBox: React.FC = () => {
 
         if (decodedToken.exp > currentTime) {
           // 토큰이 유효하면 자동으로 페이지 이동
-          api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+          api.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${accessToken}`;
           navigate("/portfolio"); // 이미 로그인된 경우 대시보드로 이동
         }
       } catch (error) {
@@ -239,7 +247,20 @@ const LoginBox: React.FC = () => {
       <Button onClick={handleLogin} disabled={loading}>
         {loading ? <Spinner /> : "로그인"}
       </Button>
-      <KakaoLogin />
+      <AuthLoginBox>
+        <AuthLoginIcon
+          imgSrc={"/img/kakaoLoginIcon.png"}
+          AuthUrl={"https://api.questio.co.kr/api/v1/auth/oauth/kakao"}
+        />
+        <AuthLoginIcon
+          imgSrc={"/img/naverLoginIcon.png"}
+          AuthUrl={"https://api.questio.co.kr/api/v1/auth/oauth/naver"}
+        />
+        <AuthLoginIcon
+          imgSrc={"/img/googleLoginIcon.png"}
+          AuthUrl={"https://api.questio.co.kr/api/v1/auth/oauth/google"}
+        />
+      </AuthLoginBox>
     </FormContainer>
   );
 };
