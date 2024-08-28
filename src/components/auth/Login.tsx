@@ -213,10 +213,6 @@ const LoginBox: React.FC = () => {
     }
   }, [navigate]);
 
-  const handleFindPWButtonClick = () => {
-    navigate("/find-password");
-  };
-
   const handleSignUpButtonClick = () => {
     navigate("/signup");
   };

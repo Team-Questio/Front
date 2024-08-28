@@ -1,9 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import api from "../utils/api";
-import {
-  PortfolioStateForm,
-  PortfolioDataForm,
-} from "./types";
+import { PortfolioStateForm, PortfolioDataForm } from "./types";
 
 import { toast } from "react-toastify";
 
@@ -12,7 +9,6 @@ export const fetchPortfolio = createAsyncThunk(
   "portfolio/fetchPortfolio",
   async () => {
     const response = await api.get("/portfolio");
-    console.log(response);
     return response.data;
   }
 );
