@@ -17,26 +17,28 @@ const useAuth = () => {
       setIsAuthenticated(true);
       setIsLoading(false);
     } else {
-      const token = localStorage.getItem("token");
-      if (token) {
+      const accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
         try {
-          const decodedToken = jwtDecode(token) as { exp: number };
+          const decodedToken = jwtDecode(accessToken) as { exp: number };
           const currentTime = Date.now() / 1000;
 
           if (decodedToken.exp > currentTime) {
             setIsAuthenticated(true);
-            api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+            api.defaults.headers.common[
+              "Authorization"
+            ] = `Bearer ${accessToken}`;
             if (window.location.pathname === "/login") {
               navigate("/portfolio");
             }
           } else {
-            localStorage.removeItem("token");
+            localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");
             navigate("/login");
           }
         } catch (error) {
           console.error("토큰 디코딩 중 오류 발생:", error);
-          localStorage.removeItem("token");
+          localStorage.removeItem("accessToken");
           localStorage.removeItem("refreshToken");
           navigate("/login");
         }
@@ -47,7 +49,7 @@ const useAuth = () => {
 
   const logout = () => {
     if (!isDevelopment) {
-      localStorage.removeItem("token");
+      localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
     }
     setIsAuthenticated(false);

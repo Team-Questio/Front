@@ -87,9 +87,9 @@ if (!isDevelopment) {
   // 요청 인터셉터 추가
   api.interceptors.request.use(
     (config) => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+      const accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
       }
       return config;
     },
@@ -115,18 +115,20 @@ if (!isDevelopment) {
           const refreshToken = localStorage.getItem("refreshToken");
           if (refreshToken) {
             const response = await api.post("/auth/refresh", {
-              token: refreshToken,
+              refreshToken: refreshToken,
             });
             if (response.status === 200) {
-              const newToken = response.data.token;
-              localStorage.setItem("token", newToken);
-              originalRequest.headers.Authorization = `Bearer ${newToken}`;
+              const newAccessToken = response.data.accessToken;
+              localStorage.setItem("accessToken", newAccessToken);
+              const newRefreshToken = response.data.refreshToken;
+              localStorage.setItem("refreshToken", newRefreshToken);
+              originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
               return api(originalRequest);
             }
           }
         } catch (refreshError) {
           console.error("토큰 갱신 중 오류 발생:", refreshError);
-          localStorage.removeItem("token");
+          localStorage.removeItem("accessToken");
           localStorage.removeItem("refreshToken");
           window.location.href = "/login";
         }
