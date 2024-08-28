@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { FaTimes } from "react-icons/fa"; // X 이모티콘 임포트
 
 // 모달 배경
-const ModalBackground = styled.div<{ show: boolean }>`
-  display: ${(props) => (props.show ? "flex" : "none")};
+const ModalBackground = styled.div<{ $show: boolean }>`
+  display: ${(props) => (props.$show ? "flex" : "none")};
   position: fixed;
   top: 0;
   left: 0;
@@ -14,6 +14,7 @@ const ModalBackground = styled.div<{ show: boolean }>`
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  flex-direction: column;
 `;
 
 // 모달 내용
@@ -29,6 +30,14 @@ const ModalContent = styled.div`
   align-items: end;
 `;
 
+const ModalHeader = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center; /* 수직 중앙 정렬 */
+  justify-content: space-between; /* 가로 중앙 정렬을 원한다면 사용 */
+  gap: 10px; /* 요소 간의 간격 */
+`;
+
 // X 이모티콘 스타일
 const CloseIcon = styled(FaTimes)`
   color: red;
@@ -37,19 +46,28 @@ const CloseIcon = styled(FaTimes)`
   margin-bottom: 10px;
 `;
 
+const ModalTitle = styled.h2`
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #ffffff;
+`;
+
 interface ModalProps {
   show: boolean;
   onClose: () => void;
-  onSubmit: () => void;
+  title?: string;
   children: React.ReactNode;
 }
 
 // 모달 컴포넌트
-const Modal: React.FC<ModalProps> = ({ show, onClose, children }) => {
+const Modal: React.FC<ModalProps> = ({ show, onClose, children, title }) => {
   return (
-    <ModalBackground show={show}>
+    <ModalBackground $show={show && show}>
       <ModalContent>
-        <CloseIcon onClick={onClose} /> {/* X 이모티콘 추가 */}
+        <ModalHeader>
+          <ModalTitle>{title ?? ""}</ModalTitle>
+          <CloseIcon onClick={onClose} />
+        </ModalHeader>
         {children}
       </ModalContent>
     </ModalBackground>

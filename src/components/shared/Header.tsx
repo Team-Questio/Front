@@ -50,8 +50,8 @@ const UserIcon = styled.div`
   color: white;
 `;
 
-const DropdownMenu = styled.div<{ show: boolean }>`
-  display: ${({ show }) => (show ? "block" : "none")};
+const DropdownMenu = styled.div<{ $show: boolean }>`
+  display: ${({ $show }) => ($show ? "block" : "none")};
   position: absolute;
   top: 100%;
   right: 0;
@@ -104,10 +104,7 @@ const Header: React.FC = () => {
       {isAuthenticated ? (
         <UserIcon onClick={toggleDropdown}>
           <FaUserCircle size={30} />
-          <DropdownMenu show={dropdownVisible}>
-            <DropdownItem onClick={() => navigate("/profile")}>
-              나의 정보
-            </DropdownItem>
+          <DropdownMenu $show={dropdownVisible}>
             <DropdownItem onClick={handleLogout}>로그아웃</DropdownItem>
           </DropdownMenu>
         </UserIcon>
