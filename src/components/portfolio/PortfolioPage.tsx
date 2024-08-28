@@ -307,7 +307,14 @@ const PortfolioPage: React.FC = () => {
       const updatedQuests = p.quests.map((q) => {
         if (q.questId === questId) {
           api.patch(`/portfolio/quest/${questId}`, { feedback });
-          return { ...q, feedback };
+
+          toast.success("피드백 보냈어요!");
+
+          return {
+            question: q.question,
+            questId: q.questId,
+            feedback: feedback,
+          };
         }
         return q;
       });
@@ -317,8 +324,6 @@ const PortfolioPage: React.FC = () => {
 
     // 상태 업데이트
     dispatch(setPortfolio(updatedPortfolio));
-
-    toast.success("피드백 보냈어요!");
   };
 
   const handleAddPortfolio = async () => {
@@ -330,12 +335,7 @@ const PortfolioPage: React.FC = () => {
     setPageLoading(true);
 
     try {
-      const response = await api.post(
-        "/portfolio",
-        JSON.stringify({ content: newPortfolio })
-      );
-
-      console.log("Response:", response.data);
+      await api.post("/portfolio", JSON.stringify({ content: newPortfolio }));
 
       toast.success("포트폴리오가 성공적으로 업로드되었습니다!");
       setPageLoading(false);
@@ -364,11 +364,10 @@ const PortfolioPage: React.FC = () => {
     setPageLoading(true);
 
     try {
-      const response = await api.post(
+      await api.post(
         "/feedback",
         JSON.stringify({ feedback: serviceFeedback })
       );
-      console.log("Response:", response.data);
 
       toast.success("피드백 고마워요!");
       setPageLoading(false);
@@ -400,7 +399,9 @@ const PortfolioPage: React.FC = () => {
           {portfolio.map((portfolio, index) => (
             <PortfolioItem
               key={index}
-              onClick={() => handlePortfolioClick(index)}
+              onClick={() =>
+                handlePortfolioClick(portfolio.portfolio.portfolioId)
+              }
             >
               {portfolio.portfolio.content}
             </PortfolioItem>
@@ -412,13 +413,25 @@ const PortfolioPage: React.FC = () => {
               <Title>나의 포트폴리오</Title>
               <PortfolioBackBox>
                 <PortfolioTextArea>
-                  {portfolio[selectedPortfolioIndex].portfolio.content}
+                  {
+                    portfolio.find((p) => {
+                      return (
+                        p.portfolio.portfolioId ===
+                        (selectedPortfolioIndex ?? 0)
+                      );
+                    })?.portfolio.content
+                  }
                 </PortfolioTextArea>
               </PortfolioBackBox>
               <Title>예상 면접 질문</Title>
               <QuestionList>
-                {portfolio[selectedPortfolioIndex ?? 0].quests.map(
-                  (question, index) => (
+                {portfolio
+                  .find((p) => {
+                    return (
+                      p.portfolio.portfolioId === (selectedPortfolioIndex ?? 0)
+                    );
+                  })
+                  ?.quests.map((question, index) => (
                     <QuestionBox
                       key={question.questId}
                       onClick={(e) => e.stopPropagation()}
@@ -459,8 +472,7 @@ const PortfolioPage: React.FC = () => {
                         </QuestionContent>
                       </Question>
                     </QuestionBox>
-                  )
-                )}
+                  ))}
               </QuestionList>
             </>
           )}

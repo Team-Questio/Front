@@ -176,7 +176,6 @@ const LoginBox: React.FC = () => {
         }, 100); // 100ms 지연 후 리디렉션
       } else {
         toast.error("로그인 실패. 다시 시도하세요.");
-        console.log("로그인 실패:", response);
       }
     } catch (error: any) {
       console.error("로그인 중 오류가 발생했습니다:", error);
