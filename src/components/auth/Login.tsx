@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../shared/Header";
 import { useNavigate } from "react-router-dom";
-import AuthLoginIcon from "../shared/AuthLoginIcon";
+import AuthLoginIcon from "./AuthLoginIcon";
 import api from "../../utils/api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
