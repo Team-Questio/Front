@@ -6,6 +6,7 @@ import FindPW from "../components/auth/FindPW";
 import SignUp from "../components/auth/SignUp";
 import ProtectedRoute from "./ProtectedRoute";
 import PortfolioPage from "../components/portfolio/PortfolioPage";
+import OAuthCallback from "../components/auth/OAuthCallback";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/find-password" element={<FindPW />} />
+      <Route path="/oath" element={<OAuthCallback />} />
 
       {/* 보호된 경로들 */}
       <Route

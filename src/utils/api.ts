@@ -14,8 +14,9 @@ const mockResponse = (
       case "/portfolio":
         return {
           data: { portfolios: ["포트폴리오1", "포트폴리오2"] },
-          status: 200,
-          statusText: "OK",
+          // status: 200,
+          status: 403,
+          statusText: "Forbidden",
           headers: {},
           config: { headers: new AxiosHeaders() },
         };
