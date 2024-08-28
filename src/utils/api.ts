@@ -97,6 +97,17 @@ const mockResponse = (
           config: { headers: new AxiosHeaders() },
         };
     }
+  } else if (method === "patch") {
+    switch (url) {
+      default:
+        return {
+          data: { message: "POST 더미 데이터" },
+          status: 200,
+          statusText: "OK",
+          headers: {},
+          config: { headers: new AxiosHeaders() },
+        };
+    }
   }
 
   return {
@@ -202,6 +213,15 @@ if (!isDevelopment) {
   ): Promise<R> => {
     console.log(`Mock DELETE request to: ${url}`);
     return Promise.resolve(mockResponse("delete", url) as R);
+  };
+
+  api.patch = async <T = any, R = AxiosResponse<T>>(
+    url: string,
+    data: any,
+    config?: AxiosRequestConfig
+  ): Promise<R> => {
+    console.log(`Mock PATCH request to: ${url}`);
+    return Promise.resolve(mockResponse("patch", url) as R);
   };
 }
 
