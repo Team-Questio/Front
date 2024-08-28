@@ -375,7 +375,7 @@ const PortfolioPage: React.FC = () => {
     // questions 배열을 map으로 순회하면서 questId에 해당하는 question을 업데이트
     const updatedQuestions = questions.map((q) => {
       if (q.questId === questId) {
-        api.post("/portfolio/quest/" + questId, {
+        api.patch("/portfolio/quest/" + questId, {
           feedback: feedback,
         });
 
@@ -416,11 +416,9 @@ const PortfolioPage: React.FC = () => {
       setShowModal(false);
       setNewPortfolio("");
 
-      // 피드백 모달 표시
       setShowFeedbackModal(true);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        // error가 AxiosError 타입임을 보장
         if (error.response?.status === 403) {
           toast.error(
             "업로드 횟수 제한에 도달했습니다. 나중에 다시 시도해주세요."
@@ -429,7 +427,6 @@ const PortfolioPage: React.FC = () => {
           toast.error("업로드 중 오류가 발생했습니다. 다시 시도해주세요.");
         }
       } else {
-        // 다른 타입의 오류 처리
         toast.error("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
       }
       setLoading(false);
@@ -465,12 +462,10 @@ const PortfolioPage: React.FC = () => {
     }
   };
 
-  // 포트폴리오 데이터 가져오기
   useEffect(() => {
     fetchPortfolioData();
   }, []);
 
-  // 포트폴리오 항목 클릭 시 질문 리스트 설정
   const handlePortfolioClick = (index: number) => {
     setSelectedQuestionIndex(index);
     setQuestions(portfolioData[index].quests);
