@@ -224,24 +224,6 @@ export const PlusIcon = styled(FaPlusCircle)`
   vertical-align: middle; /* 아이콘의 수직 정렬을 텍스트 중간에 맞춤 */
 `;
 
-export const Spinner = styled.div`
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top: 4px solid #ffffff;
-  width: 24px;
-  height: 24px;
-  animation: spin 1s linear infinite;
-
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-`;
-
 export const FeedbackTextArea = styled.textarea`
   width: 95%;
   height: 95%;
