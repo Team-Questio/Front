@@ -74,7 +74,7 @@ const mockResponse = (
           };
         }
         return {
-          data: { message: "포트폴리오 업로드 성공", ...data },
+          data: { content: "newPortfolio" },
           status: 200,
           statusText: "OK",
           headers: {},

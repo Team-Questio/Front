@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import api from "./api";
+import api from "../service/api";
 
 // 개발 환경 여부를 확인하는 변수
 const isDevelopment = process.env.NODE_ENV === "development";
