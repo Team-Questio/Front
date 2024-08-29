@@ -9,8 +9,12 @@ import { Axios } from "axios";
 export const fetchPortfolio = createAsyncThunk(
   "portfolio/fetchPortfolio",
   async () => {
-    const response = await api.get("/portfolio");
-    return response.data;
+    try {
+      const response = await api.get("/portfolio");
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
   }
 );
 
@@ -24,6 +28,7 @@ export const addPortfolio = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
+      console.log(error);
       return rejectWithValue(error || "Failed to add portfolio");
 
       // catch (error) {
@@ -60,6 +65,7 @@ export const updateFeedback = createAsyncThunk(
       await api.patch(`/portfolio/quest/${questId}`, { feedback });
       return { questId, feedback, selectedPortfolioIndex };
     } catch (error) {
+      console.log(error);
       return rejectWithValue(error || "Failed to update feedback");
     }
   }
