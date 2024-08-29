@@ -70,7 +70,6 @@ const PortfolioPage: React.FC = () => {
           isLoading: false,
           autoClose: 2000,
         });
-        _fetchPortfolio();
       })
       .catch((error) => {
         toast.update(id, {
