@@ -3,6 +3,10 @@ import axios, { AxiosHeaders, AxiosRequestConfig, AxiosResponse } from "axios";
 // 개발 환경 여부를 확인하는 변수
 const isDevelopment = process.env.NODE_ENV === "development";
 
+function sleep(ms: number) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
 // 요청 유형과 URL에 따른 더미 응답 생성 함수
 const mockResponse = (
   method: string,
@@ -186,7 +190,9 @@ if (!isDevelopment) {
     config?: AxiosRequestConfig
   ): Promise<R> => {
     console.log(`Mock GET request to: ${url}`);
-    return Promise.resolve(mockResponse("get", url) as R);
+    return Promise.resolve(
+      sleep(3000).then(() => mockResponse("get", url)) as R
+    );
   };
 
   api.post = async <T = any, R = AxiosResponse<T>>(
@@ -195,7 +201,9 @@ if (!isDevelopment) {
     config?: AxiosRequestConfig
   ): Promise<R> => {
     console.log(`Mock POST request to: ${url} with data:`, data);
-    return Promise.resolve(mockResponse("post", url, data) as R);
+    return Promise.resolve(
+      sleep(3000).then(() => mockResponse("post", url, data)) as R
+    );
   };
 
   api.put = async <T = any, R = AxiosResponse<T>>(
@@ -204,7 +212,9 @@ if (!isDevelopment) {
     config?: AxiosRequestConfig
   ): Promise<R> => {
     console.log(`Mock PUT request to: ${url} with data:`, data);
-    return Promise.resolve(mockResponse("put", url, data) as R);
+    return Promise.resolve(
+      sleep(3000).then(() => mockResponse("put", url, data)) as R
+    );
   };
 
   api.delete = async <T = any, R = AxiosResponse<T>>(
@@ -212,7 +222,9 @@ if (!isDevelopment) {
     config?: AxiosRequestConfig
   ): Promise<R> => {
     console.log(`Mock DELETE request to: ${url}`);
-    return Promise.resolve(mockResponse("delete", url) as R);
+    return Promise.resolve(
+      sleep(3000).then(() => mockResponse("delete", url)) as R
+    );
   };
 
   api.patch = async <T = any, R = AxiosResponse<T>>(
@@ -221,7 +233,9 @@ if (!isDevelopment) {
     config?: AxiosRequestConfig
   ): Promise<R> => {
     console.log(`Mock PATCH request to: ${url}`);
-    return Promise.resolve(mockResponse("patch", url) as R);
+    return Promise.resolve(
+      sleep(3000).then(() => mockResponse("patch", url)) as R
+    );
   };
 }
 

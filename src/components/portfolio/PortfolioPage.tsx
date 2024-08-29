@@ -38,7 +38,6 @@ import {
   QuestionFeedbackBox,
   QuestionList,
   Sidebar,
-  Spinner,
   TextArea,
   Title,
   VideoDiv,
@@ -54,7 +53,6 @@ const PortfolioPage: React.FC = () => {
   } = useSelector((state: RootState) => state.portfolio);
   const dispatch = useAppDispatch();
 
-  const [pageLoading, setPageLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [newPortfolio, setNewPortfolio] = useState<string>("");
   const [showFeedbackModal, setShowFeedbackModal] = useState<boolean>(false);
@@ -62,14 +60,28 @@ const PortfolioPage: React.FC = () => {
   const [serviceFeedback, setServiceFeedback] = useState<string>("");
 
   const handleToggleFeedBack = (questId: number, feedback: number) => {
+    const id = toast.loading("피드백 전송 중...");
+
     dispatch(updateFeedback({ questId: questId, feedback: feedback })) // 실제 questId와 feedback을 전달해야 함
       .unwrap()
       .then(() => {
+        toast.update(id, {
+          render: "피드백 고마워요!",
+          type: "success",
+          isLoading: false,
+          autoClose: 2000,
+        });
         toast.success("피드백 고마워요!");
-        dispatch(fetchPortfolio());
+        _fetchPortfolio();
       })
       .catch((error) => {
-        toast.error("피드백 제출에 실패했어요");
+        toast.update(id, {
+          // render: error.errorMessage,
+          render: "피드백 제출에 실패했어요",
+          type: "error",
+          isLoading: false,
+          autoClose: 2000,
+        });
       });
   };
 
@@ -83,36 +95,77 @@ const PortfolioPage: React.FC = () => {
       toast.error("포트폴리오 내용을 입력해주세요.");
       return;
     }
+    const id = toast.loading("포폴 업로드 중...");
     setShowModal(false);
     setShowYoutubeModal(true);
 
     dispatch(addPortfolio(newPortfolio))
       .unwrap()
       .then(() => {
-        toast.success("포트폴리오가 성공적으로 업로드되었습니다!");
+        toast.update(id, {
+          render: "포트폴리오가 성공적으로 업로드되었습니다!",
+          type: "success",
+          isLoading: false,
+          autoClose: 2000,
+        });
+
         setNewPortfolio("");
       })
       .catch((error) => {
-        toast.error(error.errorMessage);
+        toast.update(id, {
+          render: error.errorMessage,
+          type: "error",
+          isLoading: false,
+          autoClose: 2000,
+        });
         setNewPortfolio("");
       });
   };
 
   const handleSendServiceFeedback = async () => {
-    setPageLoading(true);
+    const id = toast.loading("피드백 전송 중...");
 
     try {
       await sendServiceFeedback(serviceFeedback);
+
       setShowFeedbackModal(false);
       setServiceFeedback("");
     } finally {
-      setPageLoading(false);
+      toast.update(id, {
+        render: "피드백 고마워요!",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
     }
   };
 
+  const _fetchPortfolio = () => {
+    const id = toast.loading("포폴 불러오는 중...");
+
+    dispatch(fetchPortfolio())
+      .unwrap()
+      .then(() => {
+        toast.update(id, {
+          render: "포폴을 불러왔어요",
+          type: "success",
+          isLoading: false,
+          autoClose: 2000,
+        });
+      })
+      .catch((error) => {
+        toast.update(id, {
+          render: error.errorMessage,
+          type: "error",
+          isLoading: false,
+          autoClose: 2000,
+        });
+      });
+  };
+
   useEffect(() => {
-    dispatch(fetchPortfolio());
-  }, [dispatch]);
+    _fetchPortfolio();
+  }, []);
 
   const handlePortfolioClick = (index: number) => {
     dispatch(setSelectedPortfolioIndex(index));
@@ -224,16 +277,9 @@ const PortfolioPage: React.FC = () => {
           placeholder="Enter your portfolio details here..."
           value={newPortfolio}
           onChange={(e) => setNewPortfolio(e.target.value)}
-          disabled={pageLoading}
         />
-        <ModalButton onClick={handleAddPortfolio} disabled={pageLoading}>
-          {pageLoading ? (
-            <Spinner />
-          ) : (
-            <>
-              <div>질문 샐성하기</div>
-            </>
-          )}
+        <ModalButton onClick={handleAddPortfolio}>
+          <div>질문 샐성하기</div>
         </ModalButton>
       </Modal>
 
@@ -269,7 +315,6 @@ const PortfolioPage: React.FC = () => {
           value={serviceFeedback}
           placeholder="피드백을 입력하세요..."
           onChange={(e) => setServiceFeedback(e.target.value)}
-          disabled={pageLoading}
         />
         <ModalButton onClick={handleSendServiceFeedback}>제출</ModalButton>
       </Modal>
