@@ -16,7 +16,8 @@ export interface PortfolioDataForm {
 
 export interface PortfolioStateForm {
   portfolio: PortfolioDataForm[];
+  remainToUpload: number;
   selectedPortfolioIndex: number | null;
-  loading: boolean;
+  portfolioLoading: boolean;
   error: any;
 }

@@ -261,3 +261,12 @@ export const FeedbackTextArea = styled.textarea`
     background-color: #374151;
   }
 `;
+
+export const VideoDiv = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;

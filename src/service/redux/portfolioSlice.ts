@@ -3,7 +3,15 @@ import api from "../api";
 import { PortfolioStateForm, PortfolioDataForm } from "./types";
 
 import { toast } from "react-toastify";
-import { Axios, AxiosError, isAxiosError } from "axios";
+import { isAxiosError } from "axios";
+
+const initialState: PortfolioStateForm = {
+  portfolio: [],
+  remainToUpload: 3,
+  selectedPortfolioIndex: null,
+  portfolioLoading: false,
+  error: null,
+};
 
 const handleError = (error: unknown) => {
   console.log(error);
@@ -32,8 +40,15 @@ export const fetchPortfolio = createAsyncThunk(
 
 export const addPortfolio = createAsyncThunk(
   "portfolio/addPortfolio",
-  async (newPortfolio: string, { rejectWithValue }) => {
+  async (newPortfolio: string, { getState, rejectWithValue }) => {
     try {
+      const state = getState() as { portfolio: PortfolioStateForm };
+      if (state.portfolio.remainToUpload < 1) {
+        return rejectWithValue({
+          errorMessage: "업로드 횟수를 모두 사용했어요",
+        });
+      }
+
       const response = await api.post(
         "/portfolio",
         JSON.stringify({ content: newPortfolio })
@@ -66,13 +81,6 @@ export const updateFeedback = createAsyncThunk(
   }
 );
 
-const initialState: PortfolioStateForm = {
-  portfolio: [],
-  selectedPortfolioIndex: null,
-  loading: false,
-  error: null,
-};
-
 const portfolioSlice = createSlice({
   name: "portfolio",
   initialState,
@@ -84,36 +92,36 @@ const portfolioSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPortfolio.pending, (state) => {
-        state.loading = true;
+        state.portfolioLoading = true;
         state.error = null;
       })
       .addCase(
         fetchPortfolio.fulfilled,
         (state, action: PayloadAction<PortfolioDataForm[]>) => {
           state.portfolio = action.payload;
-          state.loading = false;
+          state.portfolioLoading = false;
         }
       )
       .addCase(fetchPortfolio.rejected, (state, action) => {
-        state.loading = false;
+        state.portfolioLoading = false;
         state.error = action.error.message || "Failed to fetch portfolio";
-        toast.error("포트폴리오 데이터를 가져오는데 실패했습니다.");
+        toast.error(state.error);
       })
       .addCase(addPortfolio.pending, (state) => {
-        state.loading = true;
+        state.portfolioLoading = true;
         state.error = null;
       })
       .addCase(addPortfolio.fulfilled, (state, action) => {
-        // state.portfolio.push(action.payload);
-        state.loading = false;
+        // TODO: 업로드된 포폴 내용 및 질문 업데이트
+        state.remainToUpload -= 1;
+        state.portfolioLoading = false;
       })
       .addCase(addPortfolio.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-        toast.error("포트폴리오 업로드에 실패했습니다.");
+        state.portfolioLoading = false;
+        state.error = action.error || "Failed to fetch portfolio";
       })
       .addCase(updateFeedback.pending, (state) => {
-        state.loading = true;
+        state.portfolioLoading = true;
         state.error = null;
       })
       .addCase(
@@ -136,13 +144,12 @@ const portfolioSlice = createSlice({
             );
             portfolio.quests = quests;
           }
-          state.loading = false;
+          state.portfolioLoading = false;
         }
       )
       .addCase(updateFeedback.rejected, (state, action) => {
-        state.loading = false;
+        state.portfolioLoading = false;
         state.error = action.payload as string;
-        toast.error("피드백 업데이트에 실패했습니다.");
       });
   },
 });
