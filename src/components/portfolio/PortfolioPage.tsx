@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import YouTube from "react-youtube";
 
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../service/redux/useAppDispatch";
@@ -71,7 +70,6 @@ const PortfolioPage: React.FC = () => {
           isLoading: false,
           autoClose: 2000,
         });
-        toast.success("피드백 고마워요!");
         _fetchPortfolio();
       })
       .catch((error) => {
