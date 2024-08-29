@@ -246,8 +246,8 @@ const PortfolioPage: React.FC = () => {
         <VideoDiv>
           <ReactPlayer
             url={"https://youtu.be/wPdH7lJ8jf0"}
-            playing
-            loop
+            playing={showYoutubeModal}
+            loop={false}
             controls
             width={"100%"}
             height={"100%"}
