@@ -41,8 +41,9 @@ import {
   Spinner,
   TextArea,
   Title,
-  VideoDiv
+  VideoDiv,
 } from "./Component";
+import ReactPlayer from "react-player";
 
 const PortfolioPage: React.FC = () => {
   const {
@@ -217,6 +218,7 @@ const PortfolioPage: React.FC = () => {
         show={showModal}
         onClose={() => setShowModal(false)}
         title="포트폴리오를 업로드 해봐요"
+        zindex={3}
       >
         <TextArea
           placeholder="Enter your portfolio details here..."
@@ -239,27 +241,17 @@ const PortfolioPage: React.FC = () => {
         show={showYoutubeModal}
         onClose={() => setShowYoutubeModal(false)}
         title="테코톡으로 CS 지식을 쌓아봐요"
+        zindex={2}
       >
         <VideoDiv>
-          {showYoutubeModal ? (
-            <YouTube
-              videoId={"wPdH7lJ8jf0"}
-              opts={{
-                width: "900",
-                height: "400",
-                playerVars: {
-                  autoplay: 1, //자동재생
-                  rel: 1, //관련 동영상 표시하지 않음
-                  modestbranding: 1, // 컨트롤 바에 youtube 로고를 표시하지 않음
-                },
-              }}
-              onEnd={(e: any) => {
-                e.target.stopVideo(0);
-              }}
-            />
-          ) : (
-            <></>
-          )}
+          <ReactPlayer
+            url={"https://youtu.be/wPdH7lJ8jf0"}
+            playing
+            loop
+            controls
+            width={"100%"}
+            height={"100%"}
+          />{" "}
         </VideoDiv>
 
         <ModalButton onClick={() => setShowYoutubeModal(false)}>
@@ -271,6 +263,7 @@ const PortfolioPage: React.FC = () => {
         show={showFeedbackModal}
         onClose={() => setShowFeedbackModal(false)}
         title="피드백을 남겨주세요"
+        zindex={1}
       >
         <FeedbackTextArea
           value={serviceFeedback}
