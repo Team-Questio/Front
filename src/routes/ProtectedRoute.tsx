@@ -1,8 +1,8 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
-import useAuth from '../utils/useAuth';
-import { toast } from 'react-toastify';
-import styled, { keyframes } from 'styled-components';
+import React from "react";
+import { Navigate } from "react-router-dom";
+import useAuth from "../service/useAuth";
+import { toast } from "react-toastify";
+import styled, { keyframes } from "styled-components";
 
 // Styled Components
 
@@ -44,8 +44,8 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   }
 
   if (!isAuthenticated) {
-    console.error('로그인이 필요합니다');
-    toast.error('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+    console.error("로그인이 필요합니다");
+    toast.error("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
   }
 
   return isAuthenticated ? children : <Navigate to="/login" />;

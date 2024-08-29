@@ -1,380 +1,100 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import Header from "../shared/Header";
+import { toast } from "react-toastify";
+
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "../../service/redux/useAppDispatch";
+import { RootState } from "../../service/redux/store";
+import {
+  setSelectedPortfolioIndex,
+  fetchPortfolio,
+  addPortfolio,
+  updateFeedback,
+} from "../../service/redux/portfolioSlice";
+import { sendServiceFeedback } from "../../service/feedbackService";
+
 import {
   FaRegThumbsDown,
   FaRegThumbsUp,
   FaThumbsDown,
   FaThumbsUp,
-  FaPlusCircle,
 } from "react-icons/fa";
-
-import { useSelector } from "react-redux";
-import { useAppDispatch } from "../../redux/useAppDispatch";
-import { RootState } from "../../redux/store";
+import Header from "../shared/Header";
+import Modal from "./Modal";
 import {
-  setSelectedPortfolioIndex,
-  fetchPortfolio,
-  setPortfolio,
-} from "../../redux/portfolioSlice";
-
-import { toast } from "react-toastify";
-import api from "../../utils/api";
-import "react-toastify/dist/ReactToastify.css";
-import Modal from "./Modal"; // 모달 컴포넌트 임포트
-import axios from "axios";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  height: calc(100vh - 80px);
-  width: 100%;
-  background-color: #101827;
-  margin-top: 80px;
-`;
-
-const Sidebar = styled.div`
-  width: 250px;
-  height: 100%;
-  background-color: #273344;
-  display: flex;
-  gap: 10px;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 20px;
-  overflow-y: auto;
-`;
-
-const MainContent = styled.div`
-  height: 100%;
-  display: flex;
-  gap: 10px;
-  flex-direction: column;
-  overflow-y: auto;
-  width: calc(100% - 250px);
-  padding: 50px 20px 0 100px;
-`;
-
-const Title = styled.p`
-  margin: 10pt 0;
-  font-size: 23px;
-  text-align: left;
-  width: 50%;
-  color: #ffffff;
-`;
-
-const PortfolioItem = styled.div`
-  width: 80%;
-  padding: 12px 20px;
-  background-color: #52627c;
-  border: none;
-  border-radius: 5px;
-  color: #ffffff;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 20px;
-  transition: background-color 0.3s;
-
-  white-space: nowrap;
-  overflow: clip;
-  text-overflow: ellipsis; /* 말줄임 적용 */
-
-  &:hover {
-    background-color: #2d3748;
-  }
-
-  &:disabled {
-    background-color: #2d3748;
-    cursor: not-allowed;
-  }
-`;
-
-const PortfolioBackBox = styled.div`
-  background-color: #1f2937;
-  border-radius: 10px;
-  padding: 20px;
-  width: 80%;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-`;
-
-const PortfolioTextArea = styled.div`
-  padding: 10pt;
-  font-size: 16px;
-  background-color: #2d3748;
-  color: #ffffff;
-  border: 1px solid #ffffff;
-  border-radius: 10px;
-  height: 200px;
-  box-sizing: border-box;
-  overflow-wrap: break-word;
-
-  white-space: normal;
-  overflow: scroll;
-`;
-
-const QuestionList = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 80%;
-  height: 100%;
-  margin-top: 20px;
-  margin-bottom: 100px;
-  gap: 10px;
-`;
-
-const QuestionBox = styled.div`
-  border-radius: 10px;
-  margin-bottom: 10px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-`;
-
-const Question = styled.div`
-  padding: 15px 20px;
-  cursor: pointer;
-  background-color: #1f2937;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  width: 100%;
-  overflow: clip;
-`;
-
-const QuestionContent = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  width: 100%;
-  overflow: clip;
-`;
-
-const QuestionContentMain = styled.div`
-  padding-left: 10px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; /* 말줄임 적용 */
-`;
-
-const QuestionFeedbackBox = styled.div`
-  display: flex;
-  gap: 10px;
-  padding: 0px 20px;
-`;
-
-const TextArea = styled.textarea`
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border: 1px solid #374151;
-  border-radius: 10px;
-  background-color: #2d3748;
-  font-size: 16px;
-  color: white;
-  box-sizing: border-box;
-  height: 100%;
-  resize: none;
-
-  &:focus {
-    outline: none;
-    border-color: #3c4960;
-    background-color: #374151;
-  }
-`;
-
-const Button = styled.button`
-  width: 100%;
-  padding: 12px;
-  background-color: #374151;
-  border: none;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 20px;
-  color: #ffffff;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 20px;
-  transition: background-color 0.3s;
-
-  white-space: nowrap;
-  overflow-x: clip;
-  text-overflow: ellipsis;
-
-  &:hover {
-    background-color: #2d3748;
-  }
-
-  &:disabled {
-    background-color: #2d3748;
-    cursor: not-allowed;
-  }
-`;
-
-const ModalButton = styled.button`
-  width: 50%;
-  padding: 12px;
-  background-color: #374151;
-  border: none;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 20px;
-  color: #ffffff;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 20px;
-  transition: background-color 0.3s;
-
-  white-space: nowrap;
-  overflow-x: clip;
-  text-overflow: ellipsis;
-
-  &:hover {
-    background-color: #2d3748;
-  }
-
-  &:disabled {
-    background-color: #2d3748;
-    cursor: not-allowed;
-  }
-`;
-
-const PlusIcon = styled(FaPlusCircle)`
-  vertical-align: middle; /* 아이콘의 수직 정렬을 텍스트 중간에 맞춤 */
-`;
-
-const Spinner = styled.div`
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top: 4px solid #ffffff;
-  width: 24px;
-  height: 24px;
-  animation: spin 1s linear infinite;
-
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-`;
-
-const FeedbackTextArea = styled.textarea`
-  width: 95%;
-  height: 95%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #374151;
-  border-radius: 10px;
-  background-color: #2d3748;
-  font-size: 16px;
-  color: white;
-  resize: none;
-
-  &:focus {
-    outline: none;
-    border-color: #3c4960;
-    background-color: #374151;
-  }
-`;
+  Button,
+  Container,
+  FeedbackTextArea,
+  MainContent,
+  ModalButton,
+  PlusIcon,
+  PortfolioBackBox,
+  PortfolioItem,
+  PortfolioTextArea,
+  Question,
+  QuestionBox,
+  QuestionContent,
+  QuestionContentMain,
+  QuestionFeedbackBox,
+  QuestionList,
+  Sidebar,
+  Spinner,
+  TextArea,
+  Title,
+} from "./Component";
 
 const PortfolioPage: React.FC = () => {
-  const { portfolio, selectedPortfolioIndex } = useSelector(
+  const { portfolio, selectedPortfolioIndex, loading } = useSelector(
     (state: RootState) => state.portfolio
   );
   const dispatch = useAppDispatch();
 
   const [pageLoading, setPageLoading] = useState<boolean>(false);
-
   const [showModal, setShowModal] = useState<boolean>(false);
   const [newPortfolio, setNewPortfolio] = useState<string>("");
   const [showFeedbackModal, setShowFeedbackModal] = useState<boolean>(false);
   const [serviceFeedback, setServiceFeedback] = useState<string>("");
 
-  const toggleFeedBack = (questId: number, feedback: number) => {
-    if (selectedPortfolioIndex === null) return;
-
-    // 포트폴리오 업데이트
-    const updatedPortfolio = portfolio.map((p) => {
-      if (p.portfolio.portfolioId !== selectedPortfolioIndex) return p;
-
-      const updatedQuests = p.quests.map((q) => {
-        if (q.questId === questId) {
-          api.patch(`/portfolio/quest/${questId}`, { feedback });
-
-          toast.success("피드백 보냈어요!");
-
-          return {
-            question: q.question,
-            questId: q.questId,
-            feedback: feedback,
-          };
-        }
-        return q;
+  const handleToggleFeedBack = (questId: number, feedback: number) => {
+    dispatch(updateFeedback({ questId: questId, feedback: feedback })) // 실제 questId와 feedback을 전달해야 함
+      .unwrap()
+      .then(() => {
+        toast.success("피드백 고마워요!");
+      })
+      .catch(() => {
+        toast.error("피드백 제출에 실패했어요");
       });
-
-      return { ...p, quests: updatedQuests };
-    });
-
-    // 상태 업데이트
-    dispatch(setPortfolio(updatedPortfolio));
   };
 
-  const handleAddPortfolio = async () => {
+  const handleAddPortfolio = () => {
     if (!newPortfolio.trim()) {
       toast.error("포트폴리오 내용을 입력해주세요.");
       return;
     }
-
     setPageLoading(true);
 
-    try {
-      await api.post("/portfolio", JSON.stringify({ content: newPortfolio }));
-
-      toast.success("포트폴리오가 성공적으로 업로드되었습니다!");
-      setPageLoading(false);
-      dispatch(fetchPortfolio());
-      setShowModal(false);
-      setNewPortfolio("");
-
-      setShowFeedbackModal(true);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 403) {
-          toast.error(
-            "업로드 횟수 제한에 도달했습니다. 나중에 다시 시도해주세요."
-          );
-        } else {
-          toast.error("업로드 중 오류가 발생했습니다. 다시 시도해주세요.");
-        }
-      } else {
-        toast.error("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
-      }
-      setPageLoading(false);
-    }
+    dispatch(addPortfolio(newPortfolio))
+      .unwrap()
+      .then(() => {
+        toast.success("포트폴리오가 성공적으로 업로드되었습니다!");
+        setNewPortfolio("");
+        setShowModal(false);
+        setPageLoading(false);
+        setShowFeedbackModal(true);
+      })
+      .catch(() => {
+        toast.error("포트폴리오 업로드에 실패했습니다.");
+        setPageLoading(false);
+      });
   };
 
   const handleSendServiceFeedback = async () => {
     setPageLoading(true);
 
     try {
-      await api.post(
-        "/feedback",
-        JSON.stringify({ feedback: serviceFeedback })
-      );
-
-      toast.success("피드백 고마워요!");
-      setPageLoading(false);
+      await sendServiceFeedback(serviceFeedback);
       setShowFeedbackModal(false);
       setServiceFeedback("");
-    } catch (error) {
-      toast.error("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
+    } finally {
       setPageLoading(false);
     }
   };
@@ -445,26 +165,26 @@ const PortfolioPage: React.FC = () => {
                             {(question.feedback ?? 0) !== 1 ? (
                               <FaRegThumbsUp
                                 onClick={() =>
-                                  toggleFeedBack(question.questId, 1)
+                                  handleToggleFeedBack(question.questId, 1)
                                 }
                               />
                             ) : (
                               <FaThumbsUp
                                 onClick={() =>
-                                  toggleFeedBack(question.questId, 0)
+                                  handleToggleFeedBack(question.questId, 0)
                                 }
                               />
                             )}
                             {(question.feedback ?? 0) !== -1 ? (
                               <FaRegThumbsDown
                                 onClick={() =>
-                                  toggleFeedBack(question.questId, -1)
+                                  handleToggleFeedBack(question.questId, -1)
                                 }
                               />
                             ) : (
                               <FaThumbsDown
                                 onClick={() =>
-                                  toggleFeedBack(question.questId, 0)
+                                  handleToggleFeedBack(question.questId, 0)
                                 }
                               />
                             )}

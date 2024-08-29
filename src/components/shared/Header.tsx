@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FaUserCircle } from "react-icons/fa"; // 사용자 이모티콘
-import useAuth from "../../utils/useAuth"; // 로그인 상태 확인을 위한 커스텀 훅
+import useAuth from "../../service/useAuth"; // 로그인 상태 확인을 위한 커스텀 훅
 
 // Styled Components
 const HeaderContainer = styled.header`
