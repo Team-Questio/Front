@@ -144,7 +144,6 @@ export const QuestionFeedbackBox = styled.div`
 export const TextArea = styled.textarea`
   width: 100%;
   padding: 12px;
-  margin: 8px 0;
   border: 1px solid #374151;
   border-radius: 10px;
   background-color: #2d3748;
@@ -247,7 +246,6 @@ export const FeedbackTextArea = styled.textarea`
   width: 95%;
   height: 95%;
   padding: 12px;
-  margin: 10px 0;
   border: 1px solid #374151;
   border-radius: 10px;
   background-color: #2d3748;
@@ -260,4 +258,13 @@ export const FeedbackTextArea = styled.textarea`
     border-color: #3c4960;
     background-color: #374151;
   }
+`;
+
+export const VideoDiv = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;

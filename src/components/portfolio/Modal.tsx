@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { FaTimes } from "react-icons/fa"; // X 이모티콘 임포트
 
 // 모달 배경
-const ModalBackground = styled.div<{ $show: boolean }>`
+const ModalBackground = styled.div<{ $show: boolean; $zindex?: number }>`
   display: ${(props) => (props.$show ? "flex" : "none")};
   position: fixed;
   top: 0;
@@ -13,7 +13,7 @@ const ModalBackground = styled.div<{ $show: boolean }>`
   background: rgba(0, 0, 0, 0.5);
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: ${(props) => props.$zindex ?? "1000"};
   flex-direction: column;
 `;
 
@@ -25,6 +25,7 @@ const ModalContent = styled.div`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   width: 70%;
   height: 70%;
+  gap:20px;
   position: relative; /* 상대 위치로 변경 */
   display: flex;
   flex-direction: column;
@@ -58,12 +59,19 @@ interface ModalProps {
   onClose: () => void;
   title?: string;
   children: React.ReactNode;
+  zindex?: number;
 }
 
 // 모달 컴포넌트
-const Modal: React.FC<ModalProps> = ({ show, onClose, children, title }) => {
+const Modal: React.FC<ModalProps> = ({
+  show,
+  onClose,
+  children,
+  title,
+  zindex,
+}) => {
   return (
-    <ModalBackground $show={show && show}>
+    <ModalBackground $show={show && show} $zindex={zindex}>
       <ModalContent>
         <ModalHeader>
           <ModalTitle>{title ?? ""}</ModalTitle>
