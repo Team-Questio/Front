@@ -155,6 +155,7 @@ const LoginBox: React.FC = () => {
 
   const handleLogin = async () => {
     setLoading(true);
+    const id = toast.loading("로그인 중...");
     const formData = new FormData();
     formData.append("username", email);
     formData.append("password", password);
@@ -171,18 +172,38 @@ const LoginBox: React.FC = () => {
         localStorage.setItem("accessToken", accessToken); // 토큰을 localStorage에 저장
         localStorage.setItem("refreshToken", refreshToken); // 토큰을 localStorage에 저장
         setTimeout(() => {
-          toast.success("로그인 성공!");
+          toast.update(id, {
+            render: "로그인 성공!",
+            type: "success",
+            isLoading: false,
+            autoClose: 2000,
+          });
           navigate("/portfolio");
         }, 100); // 100ms 지연 후 리디렉션
       } else {
-        toast.error("로그인 실패. 다시 시도하세요.");
+        toast.update(id, {
+          render: "로그인 실패했어요",
+          type: "error",
+          isLoading: false,
+          autoClose: 2000,
+        });
       }
     } catch (error: any) {
       console.error("로그인 중 오류가 발생했습니다:", error);
       if (error.response && error.response.status === 404) {
-        toast.error("사용자 정보를 찾을 수 없습니다.");
+        toast.update(id, {
+          render: "사용자 정보를 찾을 수 없습니다",
+          type: "error",
+          isLoading: false,
+          autoClose: 2000,
+        });
       } else {
-        toast.error("로그인 중 오류가 발생했습니다.");
+        toast.update(id, {
+          render: "로그인 중 오류가 발생했습니다",
+          type: "error",
+          isLoading: false,
+          autoClose: 2000,
+        });
       }
     } finally {
       setLoading(false);
@@ -240,7 +261,7 @@ const LoginBox: React.FC = () => {
         </SubItem>
       </SubItemContainer>
       <Button onClick={handleLogin} disabled={loading}>
-        {loading ? <Spinner /> : "로그인"}
+        로그인
       </Button>
       <AuthLoginBox>
         <AuthLoginIcon
