@@ -59,6 +59,7 @@ const PortfolioPage: React.FC = () => {
       .unwrap()
       .then(() => {
         toast.success("피드백 고마워요!");
+        dispatch(fetchPortfolio());
       })
       .catch(() => {
         toast.error("피드백 제출에 실패했어요");
