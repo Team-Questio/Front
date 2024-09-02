@@ -275,7 +275,7 @@ const PortfolioPage: React.FC = () => {
           onChange={(e) => setNewPortfolio(e.target.value)}
         />
         <ModalButton onClick={handleAddPortfolio}>
-          <div>질문 샐성하기</div>
+          <div>질문 생성하기</div>
         </ModalButton>
       </Modal>
 
