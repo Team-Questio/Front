@@ -142,7 +142,17 @@ const portfolioSlice = createSlice({
           );
           if (portfolio) {
             const quests = portfolio.quests.map((q) =>
-              q.questId === questId ? { ...q, feedback } : q
+              q.questId === questId
+                ? {
+                    ...q,
+                    feedback:
+                      feedback === 1
+                        ? "GOOD"
+                        : feedback === -1
+                        ? "BAD"
+                        : undefined,
+                  }
+                : q
             );
             portfolio.quests = quests;
           }
