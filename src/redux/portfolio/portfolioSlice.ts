@@ -33,7 +33,6 @@ export const fetchPortfolio = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await api.get("/portfolio");
-      console.log(response);
       return response.data;
     } catch (error) {
       return rejectWithValue(handleError(error));
@@ -56,7 +55,6 @@ export const addPortfolio = createAsyncThunk(
         "/portfolio",
         JSON.stringify({ content: newPortfolio })
       );
-      console.log(response);
       return response.data;
     } catch (error) {
       return rejectWithValue(handleError(error));

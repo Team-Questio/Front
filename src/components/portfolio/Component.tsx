@@ -85,8 +85,7 @@ export const PortfolioTextArea = styled.div`
   height: 200px;
   box-sizing: border-box;
   overflow-wrap: break-word;
-
-  white-space: normal;
+  white-space: pre-wrap;
   overflow: scroll;
 `;
 
