@@ -18,6 +18,8 @@ export interface PortfolioStateForm {
   portfolio: PortfolioDataForm[];
   remainToUpload: number;
   selectedPortfolioIndex: number | null;
-  portfolioLoading: boolean;
+  isFetchingPortfolio: boolean;
+  isAddingPortfolio: boolean;
+  isUpdatingFeedback: boolean;
   error: any;
 }

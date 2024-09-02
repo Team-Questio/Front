@@ -48,7 +48,7 @@ const PortfolioPage: React.FC = () => {
     portfolio,
     remainToUpload,
     selectedPortfolioIndex,
-    portfolioLoading,
+    isAddingPortfolio,
   } = useSelector((state: RootState) => state.portfolio);
   const dispatch = useAppDispatch();
 
@@ -296,8 +296,11 @@ const PortfolioPage: React.FC = () => {
           />{" "}
         </VideoDiv>
 
-        <ModalButton onClick={() => setShowYoutubeModal(false)}>
-          질문 보러가기
+        <ModalButton
+          onClick={() => setShowYoutubeModal(false)}
+          disabled={isAddingPortfolio}
+        >
+          {isAddingPortfolio ? "질문 생성 중..." : "질문 보러가기"}
         </ModalButton>
       </Modal>
 

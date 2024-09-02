@@ -215,7 +215,8 @@ export const ModalButton = styled.button`
   }
 
   &:disabled {
-    background-color: #2d3748;
+    background-color: #1f2530;
+    color: #686868;
     cursor: not-allowed;
   }
 `;
