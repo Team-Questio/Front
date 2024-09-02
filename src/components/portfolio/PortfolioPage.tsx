@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "../../service/redux/useAppDispatch";
-import { RootState } from "../../service/redux/store";
+import { useAppDispatch } from "../../redux/useAppDispatch";
+import { RootState } from "../../redux/store";
 import {
   setSelectedPortfolioIndex,
   fetchPortfolio,
   addPortfolio,
   updateFeedback,
-} from "../../service/redux/portfolioSlice";
-import { sendServiceFeedback } from "../../service/feedbackService";
+} from "../../redux/portfolio/portfolioSlice";
+import { sendServiceFeedback } from "../../api/feedback";
 
 import {
   FaRegThumbsDown,
@@ -73,7 +73,6 @@ const PortfolioPage: React.FC = () => {
       })
       .catch((error) => {
         toast.update(id, {
-          // render: error.errorMessage,
           render: "피드백 제출에 실패했어요",
           type: "error",
           isLoading: false,

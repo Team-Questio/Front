@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import api from "../api";
-import { PortfolioStateForm, PortfolioDataForm } from "./types";
+import api from "../../api/api";
+import { PortfolioStateForm, PortfolioDataForm } from "./PortfolioTypes";
 
 import { toast } from "react-toastify";
 import { isAxiosError } from "axios";

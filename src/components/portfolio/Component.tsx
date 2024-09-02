@@ -54,7 +54,7 @@ export const PortfolioItem = styled.div`
   transition: background-color 0.3s;
 
   white-space: nowrap;
-  overflow: clip;
+  overflow-x: clip;
   text-overflow: ellipsis; /* 말줄임 적용 */
 
   &:hover {

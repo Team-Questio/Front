@@ -1,10 +1,7 @@
-import React from "react";
 import { Navigate } from "react-router-dom";
-import useAuth from "../service/useAuth";
+import useAuth from "../api/useAuth";
 import { toast } from "react-toastify";
 import styled, { keyframes } from "styled-components";
-
-// Styled Components
 
 const SpinnerContainer = styled.div`
   display: flex;
