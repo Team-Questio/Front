@@ -226,7 +226,7 @@ const PortfolioPage: React.FC = () => {
                             {index + 1}. {question.question}
                           </QuestionContentMain>
                           <QuestionFeedbackBox>
-                            {(question.feedback ?? 0) !== 1 ? (
+                            {(question.feedback ?? 0) !== "GOOD" ? (
                               <FaRegThumbsUp
                                 onClick={() =>
                                   handleToggleFeedBack(question.questId, 1)
@@ -239,7 +239,7 @@ const PortfolioPage: React.FC = () => {
                                 }
                               />
                             )}
-                            {(question.feedback ?? 0) !== -1 ? (
+                            {(question.feedback ?? 0) !== "BAD" ? (
                               <FaRegThumbsDown
                                 onClick={() =>
                                   handleToggleFeedBack(question.questId, -1)

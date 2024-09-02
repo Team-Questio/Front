@@ -1,7 +1,7 @@
 export interface QuestionForm {
   questId: number;
   question: string;
-  feedback?: number;
+  feedback?: string;
 }
 
 export interface PortfolioForm {
