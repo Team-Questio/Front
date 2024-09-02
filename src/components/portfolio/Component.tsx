@@ -54,7 +54,7 @@ export const PortfolioItem = styled.div`
   transition: background-color 0.3s;
 
   white-space: nowrap;
-  overflow: clip;
+  overflow-x: clip;
   text-overflow: ellipsis; /* 말줄임 적용 */
 
   &:hover {
@@ -215,7 +215,8 @@ export const ModalButton = styled.button`
   }
 
   &:disabled {
-    background-color: #2d3748;
+    background-color: #1f2530;
+    color: #686868;
     cursor: not-allowed;
   }
 `;

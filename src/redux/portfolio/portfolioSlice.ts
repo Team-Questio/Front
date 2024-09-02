@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import api from "../api";
-import { PortfolioStateForm, PortfolioDataForm } from "./types";
+import api from "../../api/api";
+import { PortfolioStateForm, PortfolioDataForm } from "./PortfolioTypes";
 
 import { toast } from "react-toastify";
 import { isAxiosError } from "axios";
@@ -9,7 +9,9 @@ const initialState: PortfolioStateForm = {
   portfolio: [],
   remainToUpload: 3,
   selectedPortfolioIndex: null,
-  portfolioLoading: false,
+  isFetchingPortfolio: false,
+  isAddingPortfolio: false,
+  isUpdatingFeedback: false,
   error: null,
 };
 
@@ -92,36 +94,36 @@ const portfolioSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPortfolio.pending, (state) => {
-        state.portfolioLoading = true;
+        state.isFetchingPortfolio = true;
         state.error = null;
       })
       .addCase(
         fetchPortfolio.fulfilled,
         (state, action: PayloadAction<PortfolioDataForm[]>) => {
           state.portfolio = action.payload;
-          state.portfolioLoading = false;
+          state.isFetchingPortfolio = false;
         }
       )
       .addCase(fetchPortfolio.rejected, (state, action) => {
-        state.portfolioLoading = false;
+        state.isFetchingPortfolio = false;
         state.error = action.error.message || "Failed to fetch portfolio";
         toast.error(state.error);
       })
       .addCase(addPortfolio.pending, (state) => {
-        state.portfolioLoading = true;
+        state.isAddingPortfolio = true;
         state.error = null;
       })
       .addCase(addPortfolio.fulfilled, (state, action) => {
         // TODO: 업로드된 포폴 내용 및 질문 업데이트
         state.remainToUpload -= 1;
-        state.portfolioLoading = false;
+        state.isAddingPortfolio = false;
       })
       .addCase(addPortfolio.rejected, (state, action) => {
-        state.portfolioLoading = false;
+        state.isAddingPortfolio = false;
         state.error = action.error || "Failed to fetch portfolio";
       })
       .addCase(updateFeedback.pending, (state) => {
-        state.portfolioLoading = true;
+        state.isUpdatingFeedback = true;
         state.error = null;
       })
       .addCase(
@@ -144,11 +146,11 @@ const portfolioSlice = createSlice({
             );
             portfolio.quests = quests;
           }
-          state.portfolioLoading = false;
+          state.isUpdatingFeedback = false;
         }
       )
       .addCase(updateFeedback.rejected, (state, action) => {
-        state.portfolioLoading = false;
+        state.isUpdatingFeedback = false;
         state.error = action.payload as string;
       });
   },

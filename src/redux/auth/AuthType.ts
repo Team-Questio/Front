@@ -14,10 +14,9 @@ export interface PortfolioDataForm {
   quests: QuestionForm[];
 }
 
-export interface PortfolioStateForm {
-  portfolio: PortfolioDataForm[];
-  remainToUpload: number;
-  selectedPortfolioIndex: number | null;
-  portfolioLoading: boolean;
+export interface AuthStateForm {
+  accessToken: string;
+  refreshToken: string;
+  authLoading: boolean;
   error: any;
 }

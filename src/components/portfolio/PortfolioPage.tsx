@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "../../service/redux/useAppDispatch";
-import { RootState } from "../../service/redux/store";
+import { useAppDispatch } from "../../redux/useAppDispatch";
+import { RootState } from "../../redux/store";
 import {
   setSelectedPortfolioIndex,
   fetchPortfolio,
   addPortfolio,
   updateFeedback,
-} from "../../service/redux/portfolioSlice";
-import { sendServiceFeedback } from "../../service/feedbackService";
+} from "../../redux/portfolio/portfolioSlice";
+import { sendServiceFeedback } from "../../api/feedback";
 
 import {
   FaRegThumbsDown,
@@ -48,7 +48,7 @@ const PortfolioPage: React.FC = () => {
     portfolio,
     remainToUpload,
     selectedPortfolioIndex,
-    portfolioLoading,
+    isAddingPortfolio,
   } = useSelector((state: RootState) => state.portfolio);
   const dispatch = useAppDispatch();
 
@@ -73,7 +73,6 @@ const PortfolioPage: React.FC = () => {
       })
       .catch((error) => {
         toast.update(id, {
-          // render: error.errorMessage,
           render: "피드백 제출에 실패했어요",
           type: "error",
           isLoading: false,
@@ -276,7 +275,7 @@ const PortfolioPage: React.FC = () => {
           onChange={(e) => setNewPortfolio(e.target.value)}
         />
         <ModalButton onClick={handleAddPortfolio}>
-          <div>질문 샐성하기</div>
+          <div>질문 생성하기</div>
         </ModalButton>
       </Modal>
 
@@ -297,8 +296,11 @@ const PortfolioPage: React.FC = () => {
           />{" "}
         </VideoDiv>
 
-        <ModalButton onClick={() => setShowYoutubeModal(false)}>
-          질문 보러가기
+        <ModalButton
+          onClick={() => setShowYoutubeModal(false)}
+          disabled={isAddingPortfolio}
+        >
+          {isAddingPortfolio ? "질문 생성 중..." : "질문 보러가기"}
         </ModalButton>
       </Modal>
 
