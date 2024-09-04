@@ -59,8 +59,11 @@ export const addPortfolio = createAsyncThunk(
             "/portfolio",
             JSON.stringify({ content: newPortfolio })
           );
+
+          console.log(response);
           return response.data;
         } catch (error) {
+          console.log(error);
           if (
             isAxiosError(error) &&
             error.response &&
