@@ -51,11 +51,35 @@ export const addPortfolio = createAsyncThunk(
         });
       }
 
-      const response = await api.post(
-        "/portfolio",
-        JSON.stringify({ content: newPortfolio })
-      );
-      return response.data;
+      let attempts = 0;
+      const maxRetries = 3;
+      while (attempts < maxRetries) {
+        try {
+          const response = await api.post(
+            "/portfolio",
+            JSON.stringify({ content: newPortfolio })
+          );
+
+          console.log(response);
+          return response.data;
+        } catch (error) {
+          console.log(error);
+          if (
+            isAxiosError(error) &&
+            error.response &&
+            (error.response.data.status === "G002" ||
+              error.response.data.status === "G003")
+          ) {
+            console.log("질문 생성 재시도");
+            attempts++;
+            if (attempts >= maxRetries) {
+              throw error;
+            }
+          } else {
+            throw error;
+          }
+        }
+      }
     } catch (error) {
       return rejectWithValue(handleError(error));
     }

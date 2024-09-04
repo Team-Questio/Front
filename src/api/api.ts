@@ -78,7 +78,10 @@ const mockResponse = (
           };
         }
         return {
-          data: { content: "newPortfolio" },
+          data: {
+            portfolioId: 0,
+            remaining: 0,
+          },
           status: 200,
           statusText: "OK",
           headers: {},
