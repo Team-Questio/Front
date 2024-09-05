@@ -76,7 +76,7 @@ export const addPortfolio = createAsyncThunk(
           const response2 = await api.get(
             "/portfolio/" + response.data.remaining
           );
-          
+
           console.log(response);
           console.log(response2);
           let res = {
@@ -153,7 +153,7 @@ const portfolioSlice = createSlice({
         }
       )
       .addCase(fetchRemaining.rejected, (state, action) => {
-        toast.error(state.error);
+        state.remainToUpload = 0;
       })
       .addCase(fetchPortfolio.pending, (state) => {
         state.isFetchingPortfolio = true;
