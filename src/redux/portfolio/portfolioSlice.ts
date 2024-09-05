@@ -28,6 +28,19 @@ const handleError = (error: unknown) => {
 };
 
 // API에서 포트폴리오 데이터를 가져오는 비동기 thunk 생성
+export const fetchRemaining = createAsyncThunk(
+  "portfolio/fetchRemaining",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/users");
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(handleError(error));
+    }
+  }
+);
+
+// API에서 포트폴리오 데이터를 가져오는 비동기 thunk 생성
 export const fetchPortfolio = createAsyncThunk(
   "portfolio/fetchPortfolio",
   async (_, { rejectWithValue }) => {
@@ -60,8 +73,18 @@ export const addPortfolio = createAsyncThunk(
             JSON.stringify({ content: newPortfolio })
           );
 
+          const response2 = await api.get(
+            "/portfolio/" + response.data.remaining
+          );
+          
           console.log(response);
-          return response.data;
+          console.log(response2);
+          let res = {
+            remaining: response.data.remaining,
+            portfolioId: response.data.portfolioId,
+            portfolio: response2.data,
+          };
+          return res;
         } catch (error) {
           console.log(error);
           if (
@@ -117,6 +140,21 @@ const portfolioSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchRemaining.pending, (state) => {})
+      .addCase(
+        fetchRemaining.fulfilled,
+        (
+          state,
+          action: PayloadAction<{
+            remaining: number;
+          }>
+        ) => {
+          state.remainToUpload = action.payload.remaining;
+        }
+      )
+      .addCase(fetchRemaining.rejected, (state, action) => {
+        toast.error(state.error);
+      })
       .addCase(fetchPortfolio.pending, (state) => {
         state.isFetchingPortfolio = true;
         state.error = null;
@@ -137,9 +175,11 @@ const portfolioSlice = createSlice({
         state.isAddingPortfolio = true;
         state.error = null;
       })
-      .addCase(addPortfolio.fulfilled, (state, action) => {
-        // TODO: 업로드된 포폴 내용 및 질문 업데이트
-        state.remainToUpload -= 1;
+      .addCase(addPortfolio.fulfilled, (state, action: PayloadAction<any>) => {
+        console.log(action.payload);
+        state.remainToUpload = action.payload.remaining;
+        state.selectedPortfolioIndex = action.payload.portfolioId;
+        state.portfolio = [action.payload.portfolio, ...state.portfolio];
         state.isAddingPortfolio = false;
       })
       .addCase(addPortfolio.rejected, (state, action) => {
