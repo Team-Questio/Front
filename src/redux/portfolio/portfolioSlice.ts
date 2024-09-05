@@ -75,7 +75,7 @@ export const addPortfolio = createAsyncThunk(
           );
 
           const response2 = await api.get(
-            "/portfolio/" + response.data.remaining
+            "/portfolio/" + response.data.portfolioId
           );
 
           console.log(response);
