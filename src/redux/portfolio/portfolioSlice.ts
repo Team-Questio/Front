@@ -33,6 +33,7 @@ export const fetchRemaining = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await api.get("/users");
+      console.log(response);
       return response.data;
     } catch (error) {
       return rejectWithValue(handleError(error));
