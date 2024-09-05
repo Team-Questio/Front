@@ -9,6 +9,7 @@ import {
   fetchPortfolio,
   addPortfolio,
   updateFeedback,
+  fetchRemaining,
 } from "../../redux/portfolio/portfolioSlice";
 import { sendServiceFeedback } from "../../api/feedback";
 
@@ -136,6 +137,10 @@ const PortfolioPage: React.FC = () => {
     }
   };
 
+  const _fetchRemaining = () => {
+    dispatch(fetchRemaining());
+  };
+
   const _fetchPortfolio = () => {
     const id = toast.loading("포폴 불러오는 중...");
 
@@ -160,6 +165,7 @@ const PortfolioPage: React.FC = () => {
   };
 
   useEffect(() => {
+    _fetchRemaining();
     _fetchPortfolio();
   }, []);
 
