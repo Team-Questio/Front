@@ -21,5 +21,6 @@ export interface PortfolioStateForm {
   isFetchingPortfolio: boolean;
   isAddingPortfolio: boolean;
   isUpdatingFeedback: boolean;
+  youtubeURL: string;
   error: any;
 }
