@@ -10,6 +10,7 @@ import {
   addPortfolio,
   updateFeedback,
   fetchRemaining,
+  fetchYoutubeURL,
 } from "../../redux/portfolio/portfolioSlice";
 import { sendServiceFeedback } from "../../api/feedback";
 
@@ -50,6 +51,7 @@ const PortfolioPage: React.FC = () => {
     remainToUpload,
     selectedPortfolioIndex,
     isAddingPortfolio,
+    youtubeURL,
   } = useSelector((state: RootState) => state.portfolio);
   const dispatch = useAppDispatch();
 
@@ -83,6 +85,8 @@ const PortfolioPage: React.FC = () => {
   };
 
   const handlePortfolioAddButton = () => {
+    dispatch(fetchYoutubeURL());
+
     if (remainToUpload == 0) toast.error("업로드 제한에 도달했어요");
     else setShowModal(true);
   };
@@ -293,7 +297,7 @@ const PortfolioPage: React.FC = () => {
       >
         <VideoDiv>
           <ReactPlayer
-            url={"https://youtu.be/wPdH7lJ8jf0"}
+            url={youtubeURL}
             playing={showYoutubeModal}
             loop={false}
             controls

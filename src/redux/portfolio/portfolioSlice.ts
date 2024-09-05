@@ -12,6 +12,7 @@ const initialState: PortfolioStateForm = {
   isFetchingPortfolio: false,
   isAddingPortfolio: false,
   isUpdatingFeedback: false,
+  youtubeURL: "https://youtu.be/wPdH7lJ8jf0",
   error: null,
 };
 
@@ -26,6 +27,19 @@ const handleError = (error: unknown) => {
     return { errorMessage: "Unexpected error occurred" };
   }
 };
+
+export const fetchYoutubeURL = createAsyncThunk(
+  "portfolio/fetchYoutubeURL",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/videos/random");
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(handleError(error));
+    }
+  }
+);
 
 // API에서 포트폴리오 데이터를 가져오는 비동기 thunk 생성
 export const fetchRemaining = createAsyncThunk(
@@ -141,6 +155,20 @@ const portfolioSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchYoutubeURL.pending, (state) => {})
+      .addCase(
+        fetchYoutubeURL.fulfilled,
+        (
+          state,
+          action: PayloadAction<{
+            title: string;
+            url: string;
+          }>
+        ) => {
+          state.youtubeURL = action.payload.url;
+        }
+      )
+      .addCase(fetchYoutubeURL.rejected, (state, action) => {})
       .addCase(fetchRemaining.pending, (state) => {})
       .addCase(
         fetchRemaining.fulfilled,
