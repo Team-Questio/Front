@@ -25,7 +25,11 @@ import Modal from "./Modal";
 import {
   Button,
   Container,
+  FeedbackButton,
   FeedbackTextArea,
+  FixedContainer,
+  Icon,
+  IconContainer,
   MainContent,
   ModalButton,
   PlusIcon,
@@ -38,8 +42,10 @@ import {
   QuestionContentMain,
   QuestionFeedbackBox,
   QuestionList,
+  ScrollableContainer,
   Sidebar,
   TextArea,
+  TextContainer,
   Title,
   VideoDiv,
 } from "./Component";
@@ -186,25 +192,43 @@ const PortfolioPage: React.FC = () => {
       <Header />
       <Container>
         <Sidebar>
-          <Button onClick={handlePortfolioAddButton}>
-            <PlusIcon />
-            <div style={{ fontSize: 15 }}>포트폴리오 추가 </div>
-          </Button>
-          <div style={{ color: "grey", fontSize: 15 }}>
-            {" "}
-            남은 횟수 {remainToUpload} 회
-          </div>
+          <FixedContainer>
+            <Button onClick={handlePortfolioAddButton}>
+              <PlusIcon />
+              <div style={{ fontSize: 15 }}>포트폴리오 추가 </div>
+            </Button>
+            <div style={{ color: "grey", fontSize: 15, marginTop: 10 }}>
+              {" "}
+              남은 횟수 {remainToUpload} 회
+            </div>
+          </FixedContainer>
 
-          {portfolio.map((portfolio, index) => (
-            <PortfolioItem
-              key={index}
-              onClick={() =>
-                handlePortfolioClick(portfolio.portfolio.portfolioId)
-              }
-            >
-              {portfolio.portfolio.content}
-            </PortfolioItem>
-          ))}
+          <ScrollableContainer>
+            {portfolio.map((portfolio, index) => (
+              <PortfolioItem
+                key={index}
+                onClick={() =>
+                  handlePortfolioClick(portfolio.portfolio.portfolioId)
+                }
+              >
+                {portfolio.portfolio.content}
+              </PortfolioItem>
+            ))}
+          </ScrollableContainer>
+
+          <FeedbackButton>
+            <IconContainer>
+              <Icon>✏️</Icon> {/* 아이콘을 추가하세요 */}
+            </IconContainer>
+            <TextContainer>
+              <div style={{ fontSize: 14, fontWeight: "bold" }}>
+                피드백 하러가기
+              </div>
+              <div style={{ fontSize: 12, color: "#8A8A8A" }}>
+                추첨 경품도 받아가세요
+              </div>
+            </TextContainer>
+          </FeedbackButton>
         </Sidebar>
         <MainContent>
           {selectedPortfolioIndex !== null && (

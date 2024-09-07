@@ -5,21 +5,19 @@ import { FaPlusCircle } from "react-icons/fa";
 export const Container = styled.div`
   display: flex;
   flex-direction: row;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 70px);
   width: 100%;
   background-color: #101827;
-  margin-top: 80px;
+  margin-top: 70px;
 `;
 
 export const Sidebar = styled.div`
-  width: 250px;
+  width: 270px;
   height: 100%;
   background-color: #273344;
   display: flex;
-  gap: 10px;
   flex-direction: column;
   align-items: center;
-  padding: 0 20px;
   overflow-y: auto;
 `;
 
@@ -42,16 +40,34 @@ export const Title = styled.p`
   color: #ffffff;
 `;
 
+export const FixedContainer = styled.div`
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+export const ScrollableContainer = styled.div`
+  width: 100%;
+  flex-grow: 1;
+  overflow-y: auto;
+  margin: 0px 20px;
+  margin-top: 10px;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+`;
+
 export const PortfolioItem = styled.div`
-  width: 80%;
+  width: 70%;
   padding: 12px 20px;
   background-color: #52627c;
   border: none;
   border-radius: 5px;
   color: #ffffff;
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
-  margin-bottom: 10px;
   transition: background-color 0.3s;
 
   white-space: nowrap;
@@ -172,9 +188,8 @@ export const Button = styled.button`
   color: #ffffff;
   font-size: 16px;
   cursor: pointer;
-  margin-top: 20px;
   transition: background-color 0.3s;
-
+  margin-top: 15px;
   white-space: nowrap;
   overflow-x: clip;
   text-overflow: ellipsis;
@@ -187,6 +202,56 @@ export const Button = styled.button`
     background-color: #2d3748;
     cursor: not-allowed;
   }
+`;
+
+export const FeedbackButton = styled.button`
+  width: 100%;
+  padding: 10px;
+  background: #273344;
+  border: none;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  white-space: nowrap;
+  overflow-x: clip;
+  text-overflow: ellipsis;
+
+  &:hover {
+    background-color: #374151;
+  }
+
+  &:disabled {
+    background-color: #2d3748;
+    cursor: not-allowed;
+  }
+`;
+
+export const IconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px; /* 텍스트와 아이콘 사이 여백 */
+`;
+
+export const Icon = styled.div`
+  width: 24px; /* 아이콘 크기 */
+  height: 24px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #2d2d2d; /* 아이콘 색상 */
+  font-size: 14px;
+`;
+
+export const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column; /* 텍스트를 위아래로 배치 */
+  align-items: flex-start; /* 텍스트를 왼쪽 정렬 */
 `;
 
 export const ModalButton = styled.button`
