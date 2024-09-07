@@ -16,13 +16,12 @@ const HeaderContainer = styled.header`
   background-color: #1f2937;
   box-sizing: border-box;
   padding: 0px 15px;
-  width: 100%;
-  height: 80px; /* 헤더의 높이 */
+  height: 70px; /* 헤더의 높이 */
   z-index: 1000; /* 다른 요소 위에 표시 */
 `;
 
 const Logo = styled.img`
-  height: 50px;
+  height: 40px;
 `;
 
 const LogoDiv = styled.div`
