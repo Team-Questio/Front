@@ -15,17 +15,20 @@ const HeaderContainer = styled.header`
   align-items: center;
   background-color: #1f2937;
   box-sizing: border-box;
-  padding: 0px 15px;
+  padding-right: 20px;
+  padding-left: 15px;
   height: 70px; /* 헤더의 높이 */
   z-index: 1000; /* 다른 요소 위에 표시 */
 `;
 
 const Logo = styled.img`
-  height: 40px;
+  height: 45px;
 `;
 
 const LogoDiv = styled.div`
   cursor: pointer;
+  display: flex;
+  align-items: center;
 `;
 
 const StartButton = styled.button`
