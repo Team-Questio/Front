@@ -22,7 +22,7 @@ const HeaderContainer = styled.header`
 `;
 
 const Logo = styled.img`
-  height: 45px;
+  height: 50px;
 `;
 
 const LogoDiv = styled.div`
