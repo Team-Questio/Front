@@ -30,11 +30,12 @@ export const MainContent = styled.div`
   flex-direction: column;
   overflow-y: auto;
   width: calc(100% - 250px);
-  padding: 50px 20px 0 100px;
+  padding: 0px 20px 0 100px;
 `;
 
 export const Title = styled.p`
   margin: 10pt 0;
+  margin-top: 50px;
   font-size: 23px;
   text-align: left;
   width: 50%;
@@ -50,7 +51,7 @@ export const PortfolioItem = styled.div`
   color: #ffffff;
   font-size: 16px;
   cursor: pointer;
-  margin-top: 20px;
+  margin-bottom: 10px;
   transition: background-color 0.3s;
 
   white-space: nowrap;
@@ -95,7 +96,6 @@ export const QuestionList = styled.div`
   align-items: flex-start;
   width: 80%;
   height: 100%;
-  margin-top: 20px;
   margin-bottom: 100px;
   gap: 10px;
 `;
