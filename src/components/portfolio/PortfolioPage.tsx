@@ -96,7 +96,7 @@ const PortfolioPage: React.FC = () => {
       toast.error("포트폴리오 내용을 입력해주세요.");
       return;
     }
-    const id = toast.loading("포폴 업로드 중...");
+    const id = toast.loading("포트폴리오 업로드 중...");
     setShowModal(false);
     setShowYoutubeModal(true);
 
@@ -146,13 +146,13 @@ const PortfolioPage: React.FC = () => {
   };
 
   const _fetchPortfolio = () => {
-    const id = toast.loading("포폴 불러오는 중...");
+    const id = toast.loading("포트폴리오 불러오는 중...");
 
     dispatch(fetchPortfolio())
       .unwrap()
       .then(() => {
         toast.update(id, {
-          render: "포폴을 불러왔어요",
+          render: "포트폴리오를 불러왔어요",
           type: "success",
           isLoading: false,
           autoClose: 2000,
@@ -209,7 +209,7 @@ const PortfolioPage: React.FC = () => {
         <MainContent>
           {selectedPortfolioIndex !== null && (
             <>
-              <Title>나의 포트폴리오</Title>
+              <Title>나의 포트폴리오 / 자소서</Title>
               <PortfolioBackBox>
                 <PortfolioTextArea>
                   {
