@@ -66,7 +66,7 @@ export const PortfolioItem = styled.div`
   border: none;
   border-radius: 5px;
   color: #ffffff;
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
   transition: background-color 0.3s;
 
