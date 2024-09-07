@@ -4,6 +4,7 @@ import { PortfolioStateForm, PortfolioDataForm } from "./PortfolioTypes";
 
 import { toast } from "react-toastify";
 import { isAxiosError } from "axios";
+import { PassThrough } from "stream";
 
 const initialState: PortfolioStateForm = {
   portfolio: [],
@@ -19,10 +20,49 @@ const initialState: PortfolioStateForm = {
 const handleError = (error: unknown) => {
   console.log(error);
   if (isAxiosError(error)) {
-    const errorMessage =
-      error.response?.data?.detail || "Undefined Axios error occurred";
-    const statusCode = error.response?.data?.status || error.response?.status;
-    return { errorMessage, statusCode };
+    switch (error.code) {
+      case "G001":
+        return {
+          errorMessage: "포트폴리오 컨텐츠가 CS와 관련이 없다고 판단되었습니다",
+          statusCode: error.code,
+        };
+      case "G002":
+        return {
+          errorMessage: "질문 JSON 파싱 중 오류가 발생했습니다",
+          statusCode: error.code,
+        };
+      case "G003":
+        return {
+          errorMessage: "질문 생성 중 오류가 발생했습니다",
+          statusCode: error.code,
+        };
+      case "P004":
+        return {
+          errorMessage: "적절하지 않은 피드백입니다",
+          statusCode: error.code,
+        };
+      case "P003":
+        return {
+          errorMessage: "일치하는 질문을 찾을 수 없습니다",
+          statusCode: error.code,
+        };
+      case "P001":
+        return {
+          errorMessage: "포트폴리오를 찾을 수 없습니다.",
+          statusCode: error.code,
+        };
+      case "P002":
+        return {
+          errorMessage: "포트폴리오에 접근할 수 없습니다",
+          statusCode: error.code,
+        };
+
+      default:
+        return {
+          errorMessage: "Undefined Axios error occurred",
+          statusCode: error.code,
+        };
+    }
   } else {
     return { errorMessage: "Unexpected error occurred" };
   }
@@ -102,6 +142,14 @@ export const addPortfolio = createAsyncThunk(
           return res;
         } catch (error) {
           console.log(error);
+          if (
+            isAxiosError(error) &&
+            error.response &&
+            (error.response.data.status === "P001" ||
+              error.response.data.status === "P002")
+          ) {
+            throw error;
+          }
           if (
             isAxiosError(error) &&
             error.response &&

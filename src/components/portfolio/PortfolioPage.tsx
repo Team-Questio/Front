@@ -188,8 +188,13 @@ const PortfolioPage: React.FC = () => {
         <Sidebar>
           <Button onClick={handlePortfolioAddButton}>
             <PlusIcon />
-            <div>포트폴리오 추가 {remainToUpload} / 3</div>
+            <div style={{ fontSize: 15 }}>포트폴리오 추가 </div>
           </Button>
+          <div style={{ color: "grey", fontSize: 15 }}>
+            {" "}
+            남은 횟수 {remainToUpload} 회
+          </div>
+
           {portfolio.map((portfolio, index) => (
             <PortfolioItem
               key={index}

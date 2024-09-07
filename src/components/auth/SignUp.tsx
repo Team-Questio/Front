@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { isAxiosError } from "axios";
 
 // Styled Components
 const Container = styled.div`
@@ -237,7 +238,13 @@ const SignUpBox: React.FC = () => {
         setIsAuthCheck(true);
       } catch (error) {
         console.error(error);
-        toast.error("인증번호를 다시 확인해주세요.");
+        if (isAxiosError(error)) {
+          if (error.response?.data.status === "A003") {
+            toast.error("인증 코드가 만료되었거나 존재하지 않습니다");
+          } else if (error.response?.data.status === "A004") {
+            toast.error("인증 코드가 일치하지 않습니다. 인증코드가 폐기됩니다");
+          }
+        }
       } finally {
         setLoading(false);
       }
@@ -260,7 +267,14 @@ const SignUpBox: React.FC = () => {
         navigate("/login");
       } catch (error) {
         console.error(error);
-        toast.error("회원가입에 실패했습니다. 다시 시도해주세요.");
+        if (isAxiosError(error)) {
+          if (error.code === "A009") {
+            toast.error("이미 가입된 이메일입니다");
+          }
+          if (error.code === "A006") {
+            toast.error("회원가입 시 제출된 이메일이 인증되지 않았습니다.");
+          }
+        }
       } finally {
         setLoading(false);
       }
