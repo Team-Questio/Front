@@ -21,12 +21,11 @@ import {
   FaThumbsUp,
 } from "react-icons/fa";
 import Header from "../shared/Header";
-import Modal from "./Modal";
+import { Modal } from "./Modal";
 import {
   Button,
   Container,
   FeedbackButton,
-  FeedbackTextArea,
   FixedContainer,
   Icon,
   IconContainer,
@@ -183,10 +182,6 @@ const PortfolioPage: React.FC = () => {
     dispatch(setSelectedPortfolioIndex(index));
   };
 
-  useEffect(() => {
-    if (remainToUpload == 0) setShowFeedbackModal(true);
-  }, [remainToUpload]);
-
   return (
     <>
       <Header />
@@ -216,7 +211,19 @@ const PortfolioPage: React.FC = () => {
             ))}
           </ScrollableContainer>
 
-          <FeedbackButton>
+          <FeedbackButton
+            onClick={() => {
+              const id = toast.loading("설문조사로 이동 중...");
+              window.open("https://forms.gle/G75DRY9QfubSHubm8", "_blank");
+
+              setTimeout(() => {
+                toast.update(id, {
+                  isLoading: false,
+                  autoClose: 0,
+                });
+              }, 2000);
+            }}
+          >
             <IconContainer>
               <Icon>✏️</Icon> {/* 아이콘을 추가하세요 */}
             </IconContainer>
@@ -343,19 +350,11 @@ const PortfolioPage: React.FC = () => {
         </ModalButton>
       </Modal>
 
-      <Modal
+      {/* <FeedbackModal
         show={showFeedbackModal}
         onClose={() => setShowFeedbackModal(false)}
-        title="피드백을 남겨주세요"
         zindex={1}
-      >
-        <FeedbackTextArea
-          value={serviceFeedback}
-          placeholder="피드백을 입력하세요..."
-          onChange={(e) => setServiceFeedback(e.target.value)}
-        />
-        <ModalButton onClick={handleSendServiceFeedback}>제출</ModalButton>
-      </Modal>
+      ></FeedbackModal> */}
     </>
   );
 };
