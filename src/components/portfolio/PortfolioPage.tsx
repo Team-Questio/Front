@@ -192,7 +192,14 @@ const PortfolioPage: React.FC = () => {
               <PlusIcon />
               <div style={{ fontSize: 15 }}>포트폴리오 추가 </div>
             </Button>
-            <div style={{ color: "grey", fontSize: 15, marginTop: 10 }}>
+            <div
+              style={{
+                color: "grey",
+                fontSize: 15,
+                marginTop: 10,
+                cursor: "default",
+              }}
+            >
               {" "}
               남은 횟수 {remainToUpload} 회
             </div>
@@ -232,7 +239,7 @@ const PortfolioPage: React.FC = () => {
                 피드백 하러가기
               </div>
               <div style={{ fontSize: 12, color: "#8A8A8A" }}>
-                추첨 경품도 받아가세요
+                좋은 서비스로 보답할게요
               </div>
             </TextContainer>
           </FeedbackButton>

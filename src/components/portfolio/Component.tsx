@@ -19,6 +19,7 @@ export const Sidebar = styled.div`
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
+  overflow-x: visible;
 `;
 
 export const MainContent = styled.div`
@@ -38,6 +39,7 @@ export const Title = styled.p`
   text-align: left;
   width: 50%;
   color: #ffffff;
+  cursor: default;
 `;
 
 export const FixedContainer = styled.div`
@@ -50,7 +52,6 @@ export const ScrollableContainer = styled.div`
   width: 100%;
   flex-grow: 1;
   overflow-y: auto;
-  margin: 0px 20px;
   margin-top: 10px;
   padding-bottom: 20px;
   display: flex;
@@ -104,6 +105,14 @@ export const PortfolioTextArea = styled.div`
   overflow-wrap: break-word;
   white-space: pre-wrap;
   overflow: scroll;
+
+  user-select: text;
+  -webkit-user-drag: text;
+  -webkit-touch-callout: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 `;
 
 export const QuestionList = styled.div`
@@ -114,6 +123,7 @@ export const QuestionList = styled.div`
   height: 100%;
   margin-bottom: 100px;
   gap: 10px;
+  cursor: default;
 `;
 
 export const QuestionBox = styled.div`
@@ -122,6 +132,7 @@ export const QuestionBox = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  cursor: default;
 `;
 
 export const Question = styled.div`
@@ -132,6 +143,7 @@ export const Question = styled.div`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   width: 100%;
   overflow: clip;
+  cursor: default;
 `;
 
 export const QuestionContent = styled.div`
@@ -141,6 +153,7 @@ export const QuestionContent = styled.div`
   cursor: pointer;
   width: 100%;
   overflow: clip;
+  cursor: default;
 `;
 
 export const QuestionContentMain = styled.div`
@@ -148,12 +161,22 @@ export const QuestionContentMain = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; /* 말줄임 적용 */
+  cursor: text;
+
+  user-select: text;
+  -webkit-user-drag: text;
+  -webkit-touch-callout: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 `;
 
 export const QuestionFeedbackBox = styled.div`
   display: flex;
   gap: 10px;
   padding: 0px 20px;
+  cursor: pointer;
 `;
 
 export const TextArea = styled.textarea`

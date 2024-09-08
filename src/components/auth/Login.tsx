@@ -239,7 +239,9 @@ const LoginBox: React.FC = () => {
 
   return (
     <FormContainer>
-      <h2 style={{ color: "#ffffff", marginBottom: "40px" }}>로그인</h2>
+      <h2 style={{ color: "#ffffff", marginBottom: "40px", cursor: "default" }}>
+        로그인
+      </h2>
       <InputField
         type="email"
         placeholder="이메일을 입력하세요"
