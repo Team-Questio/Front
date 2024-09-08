@@ -111,7 +111,10 @@ const Header: React.FC = () => {
           </DropdownMenu>
         </UserIcon>
       ) : (
-        <StartButton onClick={handleButtonClick}>시작하기</StartButton>
+        <UserIcon onClick={handleButtonClick}>
+          <FaUserCircle size={30} />
+        </UserIcon>
+        // <StartButton onClick={handleButtonClick}>시작하기</StartButton>
       )}
     </HeaderContainer>
   );
