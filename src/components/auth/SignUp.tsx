@@ -154,7 +154,7 @@ const SignUpBox: React.FC = () => {
   const [isAuthCheck, setIsAuthCheck] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const [emailError, setEmailError] = useState<string | undefined>(undefined);
@@ -283,7 +283,9 @@ const SignUpBox: React.FC = () => {
 
   return (
     <FormContainer>
-      <h2 style={{ color: "#ffffff", marginBottom: "20px" }}>회원가입</h2>
+      <h2 style={{ color: "#ffffff", marginBottom: "20px", cursor: "default" }}>
+        회원가입
+      </h2>
       <InputField
         type="text"
         placeholder="이메일을 입력해주세요"
@@ -315,7 +317,7 @@ const SignUpBox: React.FC = () => {
             onChange={handleConfirmPasswordChange}
             errorMessage={confirmPasswordError}
           />
-          <CheckboxContainer>
+          {/* <CheckboxContainer>
             <Label>
               <input
                 type="checkbox"
@@ -325,7 +327,7 @@ const SignUpBox: React.FC = () => {
               />
               개인정보처리방침 동의
             </Label>
-          </CheckboxContainer>
+          </CheckboxContainer> */}
         </>
       )}
       <ButtonContainer>

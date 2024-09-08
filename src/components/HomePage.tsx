@@ -26,12 +26,14 @@ const Content = styled.div`
 const Title = styled.h1`
   margin: 10pt 0;
   font-size: 36px;
+  cursor: default;
 `;
 
 const Description = styled.p`
   margin: 10pt 0 40pt 0;
   font-size: 18px;
   line-height: 1.5;
+  cursor: default;
 `;
 
 const StartButton = styled.button`

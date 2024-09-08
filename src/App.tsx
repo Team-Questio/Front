@@ -5,8 +5,13 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 * {
-  user-select: none; /* 텍스트 선택 금지 */
-  -webkit-user-drag: none; /* 드래그 금지 (WebKit 기반 브라우저) */
+  user-select: none; 
+  -webkit-user-drag: none; 
+  -webkit-touch-callout: none;
+  -webkit-user-select: none; 
+  -moz-user-select: none; 
+  -ms-user-select: none; 
+  user-select: none; 
 }
   img {
   pointer-events: none;

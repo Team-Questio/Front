@@ -23,7 +23,7 @@ const ModalContent = styled.div`
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  width: 70%;
+  width: 60%;
   height: 70%;
   gap: 20px;
   position: relative; /* 상대 위치로 변경 */
@@ -52,6 +52,7 @@ const ModalTitle = styled.h2`
   margin-bottom: 10px;
   font-size: 20px;
   color: #ffffff;
+  cursor: default;
 `;
 
 interface ModalProps {
