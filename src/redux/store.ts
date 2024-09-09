@@ -1,10 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import portfolioReducer from "./portfolio/portfolioSlice";
-// import authReducer from "./auth/authReducer";
+import userSlice from "./user/userSlice";
 
 export const store = configureStore({
   reducer: {
     portfolio: portfolioReducer,
+    user: userSlice,
   },
 });
 
