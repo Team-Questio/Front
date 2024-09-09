@@ -86,7 +86,7 @@ export const fetchRemaining = createAsyncThunk(
   "portfolio/fetchRemaining",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.get("/users");
+      const response = await api.get("/users/remaining");
       console.log(response);
       return response.data;
     } catch (error) {
