@@ -81,7 +81,7 @@ const DropdownItem = styled.div`
 const Header: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useAuth(); // 로그인 상태와 로그아웃 함수 가져오기
+  const { isAuthenticated, logout, secession } = useAuth(); // 로그인 상태와 로그아웃 함수 가져오기
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const { userEmail } = useSelector((state: RootState) => state.user);
 
@@ -103,6 +103,13 @@ const Header: React.FC = () => {
     navigate("/login");
   };
 
+  const handleSecession = () => {
+    secession();
+
+    setDropdownVisible(false);
+    navigate("/");
+  };
+
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
@@ -119,6 +126,7 @@ const Header: React.FC = () => {
           <DropdownMenu $show={dropdownVisible}>
             <DropdownItem>계정 정보 : {userEmail}</DropdownItem>
             <DropdownItem onClick={handleLogout}>로그아웃</DropdownItem>
+            <DropdownItem onClick={handleLogout}> 탈퇴</DropdownItem>
           </DropdownMenu>
         </UserIcon>
       ) : (

@@ -53,10 +53,26 @@ const useAuth = () => {
       localStorage.removeItem("refreshToken");
     }
     setIsAuthenticated(false);
-    navigate("/");
   };
 
-  return { isAuthenticated, isLoading, logout };
+  const secession = () => {
+    if (!isDevelopment) {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+    }
+    setIsAuthenticated(false);
+
+    navigate("/");
+
+    // try {
+    //   api.post("/auth/secession").then(() => {
+
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  };
+
+  return { isAuthenticated, isLoading, logout, secession };
 };
 
 export default useAuth;
